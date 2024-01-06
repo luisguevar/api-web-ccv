@@ -71,6 +71,9 @@ Route::group(['prefix' => 'cotizaciones'], function ($router) {
 
 Route::group(['prefix' => 'proveedores'], function ($router) {
     Route::get("/all", "Proveedor\ProveedorController@index");
+    Route::post("/add", "Proveedor\ProveedorController@store");
+    Route::get("/show_proveedor/{id}", "Proveedor\ProveedorController@show");
+    Route::put("/update/{id}", "Proveedor\ProveedorController@update");
 });
 
 

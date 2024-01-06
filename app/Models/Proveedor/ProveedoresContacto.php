@@ -5,19 +5,17 @@ namespace App\Models\Proveedor;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
-class Proveedore extends Model
+class ProveedoresContacto extends Model
 {
     protected $fillable = [
-        "tipoPersona",
-        "tipoDocumento",
-        "nroDocumento",
-        "razon_social",
+        "proveedor_id",
+        "nombre",
         "celular",
         "correo",
-        "web",
-        "direccion",
-        "observaciones",
+        "tipoDocumento",
+        "nroDocumento",
         "estado",
+
 
     ];
 
