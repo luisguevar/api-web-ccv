@@ -7,6 +7,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Cotizacion\Cotizacione;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -18,13 +19,13 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'surname', 'type_user' , 'state' , 'role_id' , 'email', 'password', 'avatar','birthday',
-        'gender','phone'
+        'name', 'surname', 'type_user', 'state', 'role_id', 'email', 'password', 'avatar', 'birthday',
+        'gender', 'phone'
     ];
 
     public function setPasswordAttribute($password)
     {
-        if($password){
+        if ($password) {
             $this->attributes["password"] = bcrypt($password);
         }
     }
@@ -74,14 +75,26 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(AddressUser::class);
     }
-    public function scopefilterAdvance($query,$state,$search)
+    public function scopefilterAdvance($query, $state, $search)
     {
-        if($state){
-            $query->where("state",$state);
+        if ($state) {
+            $query->where("state", $state);
         }
-        if($search){
-            $query->where("name","like","%".$search."%")->orWhere("surname","like","%".$search."%");
+        if ($search) {
+            $query->where("name", "like", "%" . $search . "%")->orWhere("surname", "like", "%" . $search . "%");
         }
         return $query;
+    }
+
+    //un usuario puede tener muchas cotizaciones.
+    public function cotizacionesClientes()
+    {
+        return $this->hasMany(Cotizacione::class, 'cliente_id');
+    }
+
+    //un usuario puede tener muchas cotizaciones.
+    public function cotizacionesUsuarios()
+    {
+        return $this->hasMany(Cotizacione::class, 'vendedor_id');
     }
 }

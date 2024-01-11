@@ -5,7 +5,7 @@ namespace App\Models\Cotizacion;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-
+use App\User;
 
 class Cotizacione extends Model
 {
@@ -29,4 +29,15 @@ class Cotizacione extends Model
         $this->attributes["updated_at"] = Carbon::now();
     }
 
+    //cotización pertenece a un usuario
+    public function cliente()
+    {
+        return $this->belongsTo(User::class, 'cliente_id');
+    }
+
+    //cotización pertenece a un vendedor
+    public function vendedor()
+    {
+        return $this->belongsTo(User::class, 'vendedor_id');
+    }
 }
