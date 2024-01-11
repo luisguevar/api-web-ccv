@@ -76,8 +76,6 @@ Route::group(['prefix' => 'proveedores'], function ($router) {
     Route::put("/update/{id}", "Proveedor\ProveedorController@update");
 });
 
-
-
 Route::group(['prefix' => 'cupones'], function ($router) {
     Route::get("/all", "Cupones\CuponesController@index");
     Route::get("/config_all", "Cupones\CuponesController@config_all");
