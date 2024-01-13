@@ -67,6 +67,9 @@ Route::group(['prefix' => 'sliders'], function ($router) {
 
 Route::group(['prefix' => 'cotizaciones'], function ($router) {
     Route::get("/all", "Cotizacion\CotizacionController@index");
+    Route::post("/add", "Cotizacion\CotizacionController@store");
+    Route::get("/show_cotizacion/{id}", "Cotizacion\CotizacionController@show");
+    Route::put("/update/{id}", "Cotizacion\CotizacionController@update");
 });
 
 Route::group(['prefix' => 'proveedores'], function ($router) {

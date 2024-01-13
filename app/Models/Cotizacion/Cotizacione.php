@@ -15,6 +15,8 @@ class Cotizacione extends Model
         "fechaEmision",
         "fechaExpiracion",
         "total",
+        "observaciones",
+        "estadoCotizacion",
         "estado",
     ];
 
