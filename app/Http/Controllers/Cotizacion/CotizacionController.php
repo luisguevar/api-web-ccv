@@ -87,4 +87,37 @@ class CotizacionController extends Controller
         }
     }
 
+    public function update(Request $request)
+    {
+        $cotizacion = Cotizacione::findOrFail($request->id);
+
+        try {
+            $cotizacion->update([
+                'cliente_id' => $request->input('cliente_id'),
+                'vendedor_id' => $request->input('vendedor_id'),
+                'estado' => $request->input('estado'),
+                'fechaEmision' => $request->input('fechaEmision'),
+                'fechaExpiracion' => $request->input('fechaExpiracion'),
+                'observaciones' => $request->input('observaciones'),
+                'estadoCotizacion' => $request->input('estadoCotizacion'),
+                'total' => $request->input('total'),
+            ]);
+            return response()->json(
+                [
+                    "message" => "cotizacion actualizado con éxito",
+                    "id" => $cotizacion->id,
+                    "success" => true
+                ],
+                200
+            );
+        } catch (\Exception $e) {
+
+            return response()->json([
+                "error" => $e->getMessage(),
+                "message" => "Error inesperado al actualizar el cotizacion: ",
+                "success" => false
+            ], 500);
+        }
+    }
+
 }
