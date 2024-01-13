@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Cotizacion;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cliente\Cliente;
 use App\Models\Cotizacion\Cotizacione;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -33,13 +34,12 @@ class CotizacionController extends Controller
         return response()->json([
             "cotizaciones" => $cotizaciones,
         ]);
-        
     }
 
     public function show($id)
     {
         $cotizacion = cotizacione::findOrFail($id);
-        
+
         return response()->json([
             "cotizacion" =>  $cotizacion
         ]);
@@ -47,7 +47,7 @@ class CotizacionController extends Controller
     public function store(Request $request)
     {
         try {
-           
+
             // Crear un nuevo proveedor con los datos proporcionados
             $cotizacion = new Cotizacione([
                 'cliente_id' => $request->input('cliente_id'),
@@ -120,4 +120,11 @@ class CotizacionController extends Controller
         }
     }
 
+    public function allClientes()
+    {
+        $clientes = Cliente::orderBy("id", "desc")->get();
+        return response()->json([
+            "clientes" => $clientes,
+        ]);
+    }
 }

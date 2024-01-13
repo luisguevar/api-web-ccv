@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Ecommerce\Sale;
 
+use App\Models\Product\Product;
+use App\Models\Product\ProductColorSize;
+
 use App\Models\Sale\Sale;
 use App\Mail\Sale\SaleMail;
 use Illuminate\Http\Request;
@@ -54,16 +57,23 @@ class SaleController extends Controller
 
         //CARRITO DE COMPRA O DETALLE DE VENTA
 
-        $cartshop = CartShop::where("user_id",auth('api')->user()->id)->get();
+        $cartshop = CartShop::where("user_id", auth('api')->user()->id)->get();
 
         foreach ($cartshop as $key => $cart) {
-            // $cart->delete();
+            $cart->delete();
             $sale_detail = $cart->toArray();
             $sale_detail["sale_id"] =  $sale->id;
+            if (isset($cart["product_color_size_id"])) {
+                $product_stock = ProductColorSize::find($cart["product_color_size_id"]);
+                $product_stock->update(["stock" => $product_stock->stock - $cart["cantidad"]]);
+            } else {
+                $product_stock = Product::find($cart["product_id"]);
+                $product_stock->update(["stock" => $product_stock->stock - $cart["cantidad"]]);
+            }
             SaleDetail::create($sale_detail);
         }
         Mail::to($sale->user->email)->send(new SaleMail($sale));
-        return response()->json(["message" => 200,"message_text" => "LA VENTA SE EFECTUO DE MANERA CORRECTA"]);
+        return response()->json(["message" => 200, "message_text" => "LA VENTA SE EFECTUO DE MANERA CORRECTA"]);
     }
 
     public function send_email($id)
