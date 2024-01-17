@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Cotizacion;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cliente\Cliente;
 use App\Models\Cotizacion\Cotizacione;
 use App\Models\Cotizacion\CotizacionesProducto;
 use Illuminate\Http\Request;
@@ -34,7 +35,6 @@ class CotizacionController extends Controller
         return response()->json([
             "cotizaciones" => $cotizaciones,
         ]);
-        
     }
 
     public function show($id)
@@ -52,6 +52,8 @@ class CotizacionController extends Controller
             'estado' => $cotizacion->estado,
         ];
         
+        $cotizacion = cotizacione::findOrFail($id);
+
         return response()->json([
             "cotizacion" =>  $cotizaciones,
             "productos" =>  $productos
@@ -136,4 +138,11 @@ class CotizacionController extends Controller
         }
     }
 
+    public function allClientes()
+    {
+        $clientes = Cliente::orderBy("id", "desc")->get();
+        return response()->json([
+            "clientes" => $clientes,
+        ]);
+    }
 }
