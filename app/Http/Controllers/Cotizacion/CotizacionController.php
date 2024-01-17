@@ -43,6 +43,8 @@ class CotizacionController extends Controller
         $productos = CotizacionesProducto::orderBy("id", "desc")->where("cotizacion_id", $id)->where("estado", 1)->get();
         $cotizaciones = [
             'id' => $cotizacion->id,
+            'cliente_id' =>$cotizacion->cliente_id , 
+            'vendedor_id' =>$cotizacion->vendedor_id , 
             'clienteName' => $cotizacion->cliente->name . ' ' . $cotizacion->cliente->surname,
             'vendedorName' => $cotizacion->vendedor->name . ' ' . $cotizacion->vendedor->surname,
             'fechaEmision' => $cotizacion->fechaEmision,
@@ -120,6 +122,18 @@ class CotizacionController extends Controller
                 'estadoCotizacion' => $request->input('estadoCotizacion'),
                 'total' => $request->input('total'),
             ]);
+            $listProducto = $request->input('listProducto');
+            foreach ($listProducto as $producto) {
+                $producto['cotizacion_id'] = $cotizacion->id;
+
+                if ($producto['id'] > 0) {
+                    // Actualizar el contacto existente
+                    CotizacionesProducto::where('id', $producto['id'])->update($producto);
+                } else {
+                    // Crear un nuevo contacto
+                    CotizacionesProducto::create($producto);
+                }
+            }
             return response()->json(
                 [
                     "message" => "cotizacion actualizado con éxito",
