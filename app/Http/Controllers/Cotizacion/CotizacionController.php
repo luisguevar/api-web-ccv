@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cotizacion;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cotizacion\Cotizacione;
+use App\Models\Cotizacion\CotizacionesProducto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -38,16 +39,28 @@ class CotizacionController extends Controller
 
     public function show($id)
     {
-        $cotizacion = cotizacione::findOrFail($id);
+        $cotizacion = Cotizacione::with('cliente', 'vendedor')->findOrFail($id);
+        $productos = CotizacionesProducto::orderBy("id", "desc")->where("cotizacion_id", $id)->where("estado", 1)->get();
+        $cotizaciones = [
+            'id' => $cotizacion->id,
+            'clienteName' => $cotizacion->cliente->name . ' ' . $cotizacion->cliente->surname,
+            'vendedorName' => $cotizacion->vendedor->name . ' ' . $cotizacion->vendedor->surname,
+            'fechaEmision' => $cotizacion->fechaEmision,
+            'fechaExpiracion' => $cotizacion->fechaExpiracion,
+            'observaciones' => $cotizacion->observaciones,
+            'total' => $cotizacion->total,
+            'estado' => $cotizacion->estado,
+        ];
         
         return response()->json([
-            "cotizacion" =>  $cotizacion
+            "cotizacion" =>  $cotizaciones,
+            "productos" =>  $productos
         ]);
     }
     public function store(Request $request)
     {
         try {
-           
+            DB::beginTransaction();
             // Crear un nuevo proveedor con los datos proporcionados
             $cotizacion = new Cotizacione([
                 'cliente_id' => $request->input('cliente_id'),
@@ -64,11 +77,14 @@ class CotizacionController extends Controller
             $cotizacion->save();
             $idcotizacion = $cotizacion->id;
 
-
+            $listProducto = $request->input('listProducto');
             //guardar la lista de contactos
+            foreach ($listProducto as $producto) {
+                $producto['cotizacion_id'] = $idcotizacion;
+                CotizacionesProducto::create($producto);
+            }
 
-
-
+            DB::commit();
             return response()->json(
                 [
                     "message" => "Cotizacion creada con éxito",
