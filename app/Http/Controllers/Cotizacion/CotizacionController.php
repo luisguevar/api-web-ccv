@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cotizacion;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cliente\Cliente;
+use App\Models\Product\Product;
 use App\Models\Cotizacion\Cotizacione;
 use App\Models\Cotizacion\CotizacionesProducto;
 use Illuminate\Http\Request;
@@ -41,6 +42,21 @@ class CotizacionController extends Controller
     {
         $cotizacion = Cotizacione::with('cliente', 'vendedor')->findOrFail($id);
         $productos = CotizacionesProducto::orderBy("id", "desc")->where("cotizacion_id", $id)->where("estado", 1)->get();
+        
+        // $productos = [
+        //     'cantidad' => $producto->cantidad,
+        //     'cotizacion_id' =>$producto->cotizacion_id , 
+        //     'producto_id' =>$producto->producto_id , 
+        //     'precio' => $producto->precio,
+        //     'total' => $producto->precio * $producto->cantidad,
+        //     'estado' => $producto->estado,
+
+
+        //     'created_at' => $producto->created_at,
+        //     'updated_at' => $producto->updated_at,
+            
+            
+        // ];
         $cotizaciones = [
             'id' => $cotizacion->id,
             'cliente_id' =>$cotizacion->cliente_id , 
@@ -157,6 +173,14 @@ class CotizacionController extends Controller
         $clientes = Cliente::orderBy("id", "desc")->get();
         return response()->json([
             "clientes" => $clientes,
+        ]);
+    }
+
+    public function allProductos()
+    {
+        $productos = Product::orderBy("id", "desc")->get();
+        return response()->json([
+            "productos" => $productos,
         ]);
     }
 }

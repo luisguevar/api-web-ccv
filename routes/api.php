@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+
 Route::group(['prefix' => 'users'], function ($router) {
     Route::post('/register', "JWTController@register");
     Route::post('/login', "JWTController@loginAdmin");
@@ -72,6 +73,7 @@ Route::group(['prefix' => 'cotizaciones'], function ($router) {
     Route::put("/update/{id}", "Cotizacion\CotizacionController@update");
 
     Route::get("/allClientes", "Cotizacion\CotizacionController@allClientes");
+    Route::get("/allProductos", "Cotizacion\CotizacionController@allProductos");
 });
 
 Route::group(['prefix' => 'proveedores'], function ($router) {

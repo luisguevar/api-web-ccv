@@ -15,6 +15,7 @@ class CotizacionesProducto extends Model
         "producto_id",
         "cantidad",
         "precio",
+        "descuento",
         "estado",
     ];
 
