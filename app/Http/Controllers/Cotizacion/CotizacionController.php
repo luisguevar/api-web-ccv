@@ -90,6 +90,7 @@ class CotizacionController extends Controller
             'fechaExpiracion' => $cotizacion->fechaExpiracion,
             'observaciones' => $cotizacion->observaciones,
             'total' => $cotizacion->total,
+            'estadoCotizacion' => $cotizacion->estadoCotizacion,
             'tieneDescuento' => $cotizacion->tieneDescuento,
             'descuento' => $cotizacion->descuento,
             'estado' => $cotizacion->estado,
