@@ -14,24 +14,47 @@ class CotizacionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        /*  $this->middleware('auth:api'); */
     }
     //
-    public function index()
+    public function index(Request $request)
     {
-        $lst_cotizaciones = Cotizacione::orderBy("id", "desc")->with('cliente')->with('vendedor')->get();
+        $estadoCotizacion = $request->input('estadoCotizacion');
+
+        $query = Cotizacione::orderBy("id", "desc")->with('cliente')->with('vendedor')->where("estado", 1);
+        if ($estadoCotizacion != 0) {
+            $query->where('estadoCotizacion', $estadoCotizacion);
+        }
+
+        $lst_cotizaciones = $query->get();
+
 
         $cotizaciones = $lst_cotizaciones->map(function ($cotizacion) {
+            // Verificar si la relación 'cliente' existe
+            if ($cotizacion->cliente) {
+                $clienteName = $cotizacion->cliente->nombres . ' ' . $cotizacion->cliente->apellidos;
+            } else {
+                $clienteName = 'Cliente no disponible';
+            }
+
+            // Verificar si la relación 'vendedor' existe
+            if ($cotizacion->vendedor) {
+                $vendedorName = $cotizacion->vendedor->name . ' ' . $cotizacion->vendedor->surname;
+            } else {
+                $vendedorName = 'Vendedor no disponible';
+            }
+
             return [
                 'id' => $cotizacion->id,
-                'clienteName' => $cotizacion->cliente->name . ' ' . $cotizacion->cliente->surname,
-                'vendedorName' => $cotizacion->vendedor->name . ' ' . $cotizacion->vendedor->surname,
+                'clienteName' => $clienteName,
+                'vendedorName' => $vendedorName,
                 'fechaEmision' => $cotizacion->fechaEmision,
                 'fechaExpiracion' => $cotizacion->fechaExpiracion,
                 'total' => $cotizacion->total,
-                'estado' => $cotizacion->estado,
+                'estado' => $cotizacion->estadoCotizacion,
             ];
         });
+
 
         return response()->json([
             "cotizaciones" => $cotizaciones,
@@ -42,7 +65,7 @@ class CotizacionController extends Controller
     {
         $cotizacion = Cotizacione::with('cliente', 'vendedor')->findOrFail($id);
         $productos = CotizacionesProducto::orderBy("id", "desc")->where("cotizacion_id", $id)->where("estado", 1)->get();
-        
+
         // $productos = [
         //     'cantidad' => $producto->cantidad,
         //     'cotizacion_id' =>$producto->cotizacion_id , 
@@ -54,22 +77,24 @@ class CotizacionController extends Controller
 
         //     'created_at' => $producto->created_at,
         //     'updated_at' => $producto->updated_at,
-            
-            
+
+
         // ];
         $cotizaciones = [
             'id' => $cotizacion->id,
-            'cliente_id' =>$cotizacion->cliente_id , 
-            'vendedor_id' =>$cotizacion->vendedor_id , 
-            'clienteName' => $cotizacion->cliente->name . ' ' . $cotizacion->cliente->surname,
+            'cliente_id' => $cotizacion->cliente_id,
+            'vendedor_id' => $cotizacion->vendedor_id,
+            'clienteName' => $cotizacion->cliente->nombres . ' ' . $cotizacion->cliente->apellidos,
             'vendedorName' => $cotizacion->vendedor->name . ' ' . $cotizacion->vendedor->surname,
             'fechaEmision' => $cotizacion->fechaEmision,
             'fechaExpiracion' => $cotizacion->fechaExpiracion,
             'observaciones' => $cotizacion->observaciones,
             'total' => $cotizacion->total,
+            'tieneDescuento' => $cotizacion->tieneDescuento,
+            'descuento' => $cotizacion->descuento,
             'estado' => $cotizacion->estado,
         ];
-        
+
         $cotizacion = cotizacione::findOrFail($id);
 
         return response()->json([
@@ -90,6 +115,8 @@ class CotizacionController extends Controller
                 'fechaExpiracion' => $request->input('fechaExpiracion'),
                 'observaciones' => $request->input('observaciones'),
                 'estadoCotizacion' => $request->input('estadoCotizacion'),
+                'tieneDescuento' => $request->input('tieneDescuento'),
+                'descuento' => $request->input('descuento'),
                 'total' => $request->input('total'),
             ]);
 
@@ -136,6 +163,8 @@ class CotizacionController extends Controller
                 'fechaExpiracion' => $request->input('fechaExpiracion'),
                 'observaciones' => $request->input('observaciones'),
                 'estadoCotizacion' => $request->input('estadoCotizacion'),
+                'tieneDescuento' => $request->input('tieneDescuento'),
+                'descuento' => $request->input('descuento'),
                 'total' => $request->input('total'),
             ]);
             $listProducto = $request->input('listProducto');
@@ -150,6 +179,33 @@ class CotizacionController extends Controller
                     CotizacionesProducto::create($producto);
                 }
             }
+            return response()->json(
+                [
+                    "message" => "cotizacion actualizado con éxito",
+                    "id" => $cotizacion->id,
+                    "success" => true
+                ],
+                200
+            );
+        } catch (\Exception $e) {
+
+            return response()->json([
+                "error" => $e->getMessage(),
+                "message" => "Error inesperado al actualizar el cotizacion: ",
+                "success" => false
+            ], 500);
+        }
+    }
+
+    public function remove(Request $request)
+    {
+        $cotizacion = Cotizacione::findOrFail($request->id);
+
+        try {
+            $cotizacion->update([
+                'estado' => 0
+            ]);
+
             return response()->json(
                 [
                     "message" => "cotizacion actualizado con éxito",

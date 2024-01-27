@@ -6,6 +6,7 @@ namespace App\Models\Cotizacion;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\User;
+use App\Models\Cliente\Cliente;
 
 class Cotizacione extends Model
 {
@@ -17,6 +18,8 @@ class Cotizacione extends Model
         "total",
         "observaciones",
         "estadoCotizacion",
+        "tieneDescuento",
+        "descuento",
         "estado",
     ];
 
@@ -34,7 +37,7 @@ class Cotizacione extends Model
     //cotización pertenece a un usuario
     public function cliente()
     {
-        return $this->belongsTo(User::class, 'cliente_id');
+        return $this->belongsTo(Cliente::class, 'cliente_id');
     }
 
     //cotización pertenece a un vendedor
