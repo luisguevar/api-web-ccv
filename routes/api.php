@@ -75,6 +75,8 @@ Route::group(['prefix' => 'cotizaciones'], function ($router) {
 
     Route::get("/allClientes", "Cotizacion\CotizacionController@allClientes");
     Route::get("/allProductos", "Cotizacion\CotizacionController@allProductos");
+
+    Route::post("/addClienteRapido", "Cotizacion\CotizacionController@addClienteRapido");
 });
 
 Route::group(['prefix' => 'proveedores'], function ($router) {

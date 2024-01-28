@@ -7,6 +7,7 @@ use App\Models\Cliente\Cliente;
 use App\Models\Product\Product;
 use App\Models\Cotizacion\Cotizacione;
 use App\Models\Cotizacion\CotizacionesProducto;
+use Facade\FlareClient\Http\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -85,6 +86,7 @@ class CotizacionController extends Controller
             'cliente_id' => $cotizacion->cliente_id,
             'vendedor_id' => $cotizacion->vendedor_id,
             'clienteName' => $cotizacion->cliente->nombres . ' ' . $cotizacion->cliente->apellidos,
+            'clienteNroDocumento' => $cotizacion->cliente->nroDocumento,
             'vendedorName' => $cotizacion->vendedor->name . ' ' . $cotizacion->vendedor->surname,
             'fechaEmision' => $cotizacion->fechaEmision,
             'fechaExpiracion' => $cotizacion->fechaExpiracion,
@@ -239,5 +241,47 @@ class CotizacionController extends Controller
         return response()->json([
             "productos" => $productos,
         ]);
+    }
+
+    public function addClienteRapido(Request $request)
+    {
+        try {
+
+            // Crear un nuevo proveedor con los datos proporcionados
+            $cliente = new Cliente([
+
+
+                'nombres' => $request->input('name'),
+                'apellidos' => $request->input('surname'),
+                'correo' => $request->input('email'),
+                'nroDocumento' => $request->input('nroDocumento'),
+
+            ]);
+
+            // Guardar el nuevo cotizacion en la base de datos
+            $cliente->save();
+            /* $idcotizacion = $cotizacion->id; */
+
+
+
+            return response()->json(
+                [
+                    "message" => "Cliente creado con éxito",
+                    "nombres" => $cliente->nombres,
+                    "apellidos" => $cliente->apellidos,
+                    "nroDocumento" => $cliente->nroDocumento,
+                    "cliente_id" => $cliente->id,
+                    "success" => true
+                ],
+                201
+            );
+        } catch (\Exception $e) {
+
+            return response()->json([
+                "error" => $e->getMessage(),
+                "message" => "Error inesperado al crear el cliente: ",
+                "success" => false
+            ], 500);
+        }
     }
 }
