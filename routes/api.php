@@ -86,6 +86,13 @@ Route::group(['prefix' => 'proveedores'], function ($router) {
     Route::put("/update/{id}", "Proveedor\ProveedorController@update");
 });
 
+Route::group(['prefix' => 'clientes'], function ($router) {
+    Route::get("/all", "Cliente\ClienteController@index");
+    Route::post("/add", "Cliente\ClienteController@store");
+    Route::post("/update/{id}", "Cliente\ClienteController@update");
+    Route::delete("/delete/{id}", "Cliente\ClienteController@destroy");
+});
+
 Route::group(['prefix' => 'cupones'], function ($router) {
     Route::get("/all", "Cupones\CuponesController@index");
     Route::get("/config_all", "Cupones\CuponesController@config_all");
