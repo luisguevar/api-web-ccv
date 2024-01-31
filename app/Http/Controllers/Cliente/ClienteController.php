@@ -101,11 +101,30 @@ class ClienteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {       
         $cliente = Cliente::findOrFail($id);
-        $cliente->delete();
 
-        return response()->json(["message" => 200]);
+        try {
+            $cliente->update([
+                'estado' => 0
+            ]);
+
+            return response()->json(
+                [
+                    "message" => "cotizacion actualizado con éxito",
+                    "id" => $cliente->id,
+                    "success" => true
+                ],
+                200
+            );
+        } catch (\Exception $e) {
+
+            return response()->json([
+                "error" => $e->getMessage(),
+                "message" => "Error inesperado al actualizar el cotizacion: ",
+                "success" => false
+            ], 500);
+        }
     }
 
 
