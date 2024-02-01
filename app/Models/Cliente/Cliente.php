@@ -11,7 +11,14 @@ class Cliente extends Model
         "nombres",
         "apellidos",
         "correo",
-        "nroDocumento"
+        "nroDocumento",
+        "estado",
+        "contacto",
+        "tipoPersona",
+        "pais",
+        "departamento",
+        "direccion",
+        "observacion"
     ];
 
     public function setCreatedAtAttribute($value)
