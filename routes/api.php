@@ -137,3 +137,8 @@ Route::group(["prefix" => "ecommerce"], function ($router) {
         Route::resource("reviews", "Ecommerce\Profile\ReviewController");
     });
 });
+
+Route::group(['prefix' => 'paises'], function ($router) {
+    Route::get("/all", "Pais\PaisController@index");
+    Route::get("/show/{pais}", "Pais\PaisController@show");
+});
