@@ -85,6 +85,7 @@ Route::group(['prefix' => 'proveedores'], function ($router) {
     Route::get("/show_proveedor/{id}", "Proveedor\ProveedorController@show");
     Route::put("/update/{id}", "Proveedor\ProveedorController@update");
     Route::put("/remove/{id}", "Proveedor\ProveedorController@remove");
+    
 });
 
 Route::group(['prefix' => 'clientes'], function ($router) {

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Proveedor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Product\ProductCCollection;
+use App\Models\Product\Product;
 use App\Models\Proveedor\Proveedore;
 use App\Models\Proveedor\ProveedoresContacto;
 use Illuminate\Http\Request;
@@ -109,10 +111,19 @@ class ProveedorController extends Controller
     {
         $proveedor = Proveedore::findOrFail($id);
         $contactos = ProveedoresContacto::orderBy("id", "desc")->where("proveedor_id", $id)->where("estado", 1)->get();
+        $productos = Product::orderBy("id", "desc")
+            ->where("proveedor_id", $id)
+            ->where(function ($query) {
+                $query->where("state", 1)
+                    ->orWhere('state', 2);
+            })
+            ->get();
+
 
         return response()->json([
             "proveedor" =>  $proveedor,
-            "contactos" => $contactos
+            "contactos" => $contactos,
+            "productos" => ProductCCollection::make($productos),
         ]);
     }
 
