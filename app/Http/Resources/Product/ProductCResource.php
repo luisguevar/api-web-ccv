@@ -23,6 +23,8 @@ class ProductCResource extends JsonResource
                 "icono" => $this->resource->categorie->icono,
                 "name" => $this->resource->categorie->name,
             ],
+            "fecha_compra" => now()->toDateString(),
+            "categorie_name"=>$this->resource->categorie->name,
             "slug" => $this->resource->slug,
             "sku" => $this->resource->sku,
             "tags" => $this->resource->tags,
