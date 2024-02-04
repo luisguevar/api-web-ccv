@@ -21,10 +21,31 @@ class ProveedorController extends Controller
      */
     public function index()
     {
-        $proveedores = Proveedore::orderBy("id", "desc")->get();
+        $proveedores = Proveedore::orderBy("id", "desc")->where("estado", 1)->get();
 
         return response()->json([
-            "proveedores" => $proveedores,
+            "proveedores" => $proveedores->map(function ($proveedor) {
+                $nroContactos = $proveedor->contactos()->count();
+                $nroProductos = $proveedor->productos()->count();
+
+                return [
+
+                    "id" => $proveedor->id,
+                    "tipoPersona" => $proveedor->tipoPersona,
+                    "tipoDocumento" => $proveedor->tipoDocumento,
+                    "nroDocumento" => $proveedor->nroDocumento,
+                    "razon_social" => $proveedor->razon_social,
+                    "celular" => $proveedor->celular,
+                    "correo" => $proveedor->correo,
+                    "web" => $proveedor->web,
+                    "direccion" => $proveedor->direccion,
+                    "observaciones" => $proveedor->observaciones,
+                    "estado" => $proveedor->estado,
+                    "nroContactos" => $nroContactos,
+                    "nroProductos" => $nroProductos,
+
+                ];
+            }),
 
         ]);
     }
@@ -130,6 +151,33 @@ class ProveedorController extends Controller
             return response()->json(
                 [
                     "message" => "Proveedor actualizado con éxito",
+                    "id" => $proveedor->id,
+                    "success" => true
+                ],
+                200
+            );
+        } catch (\Exception $e) {
+
+            return response()->json([
+                "error" => $e->getMessage(),
+                "message" => "Error inesperado al actualizar el proveedor: ",
+                "success" => false
+            ], 500);
+        }
+    }
+
+    public function remove(Request $request)
+    {
+        $proveedor = Proveedore::findOrFail($request->id);
+
+        try {
+            $proveedor->update([
+                'estado' => 0
+            ]);
+
+            return response()->json(
+                [
+                    "message" => "proveedor actualizado con éxito",
                     "id" => $proveedor->id,
                     "success" => true
                 ],
