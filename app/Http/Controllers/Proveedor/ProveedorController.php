@@ -142,6 +142,7 @@ class ProveedorController extends Controller
                 'web' => $request->input('web'),
                 'direccion' => $request->input('direccion'),
                 'observaciones' => $request->input('observaciones'),
+                'actividad' => $request->input('actividad'),
                 'estado' => $request->input('estado'),
             ]);
 

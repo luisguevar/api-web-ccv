@@ -18,6 +18,7 @@ class Proveedore extends Model
         "web",
         "direccion",
         "observaciones",
+        "actividad",
         "estado",
 
     ];
