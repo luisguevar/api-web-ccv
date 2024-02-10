@@ -23,7 +23,7 @@ class ClienteController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        $clientes = Cliente::where("nombres","like","%".$search."%")->orderBy("id","desc")->get();
+        $clientes = Cliente::where("estado","=","1")->orderBy("id","desc")->get();
 
         return response()->json([
             "clientes" => $clientes,
@@ -54,6 +54,37 @@ class ClienteController extends Controller
             "cliente" => $cliente,
         ]);
     }
+    //
+
+    public function remove(Request $request)
+    {
+        $cliente = Cliente::findOrFail($request->id);
+
+        try {
+            $cliente->update([
+                'estado' => 0
+            ]);
+
+            return response()->json(
+                [
+                    "message" => "cliente actualizado con éxito",
+                    "id" => $cliente->id,
+                    "success" => true
+                ],
+                200
+            );
+        } catch (\Exception $e) {
+
+            return response()->json([
+                "error" => $e->getMessage(),
+                "message" => "Error inesperado al actualizar el cliente: ",
+                "success" => false
+            ], 500);
+        }
+    }
+
+
+
 
     /**
      * Display the specified resource.

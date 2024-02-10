@@ -93,6 +93,7 @@ Route::group(['prefix' => 'clientes'], function ($router) {
     Route::post("/add", "Cliente\ClienteController@store");
     Route::post("/update/{id}", "Cliente\ClienteController@update");
     Route::delete("/delete/{id}", "Cliente\ClienteController@destroy");
+    Route::put("/remove/{id}", "Cliente\ClienteController@remove");
 });
 
 Route::group(['prefix' => 'cupones'], function ($router) {
