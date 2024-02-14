@@ -25,7 +25,10 @@ class Product extends Model
         "imagen",
         "stock",
         "type_inventario",
-        "proveedor_id"
+        "proveedor_id",
+        "precioCompra",
+        "fechaCompra",
+        
     ];
 
     protected $withCount = ['reviews'];

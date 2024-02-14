@@ -23,7 +23,6 @@ class ProductCResource extends JsonResource
                 "icono" => $this->resource->categorie->icono,
                 "name" => $this->resource->categorie->name,
             ],
-            "fecha_compra" => now()->toDateString(),
             "categorie_name"=>$this->resource->categorie->name,
             "slug" => $this->resource->slug,
             "sku" => $this->resource->sku,
@@ -37,6 +36,8 @@ class ProductCResource extends JsonResource
             "imagen" => env("APP_URL")."storage/".$this->resource->imagen,
             "stock" => $this->resource->stock,
             "proveedor_id"=> $this->resource->proveedor_id,
+            "precioCompra"=> $this->resource->precioCompra,
+            "fecha_compra"=> $this->resource->fechaCompra,
             "checked_inventario" => $this->resource->type_inventario,
             "images" => $this->resource->images->map(function($img){
                 return [
