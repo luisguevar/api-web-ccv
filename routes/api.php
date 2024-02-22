@@ -31,6 +31,7 @@ Route::group(['prefix' => 'users'], function ($router) {
         Route::get('/all', "UserController@index");
         Route::post('/register', "UserController@store");
         Route::put('/update/{id}', "UserController@update");
+        Route::put('/remove/{id}', "UserController@remove");
         Route::delete('/delete/{id}', "UserController@destroy");
     });
 });

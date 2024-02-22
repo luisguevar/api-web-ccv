@@ -18,10 +18,10 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $state = $request->get("state");//''
+        $state = $request->get("state"); //''
         $search = $request->get("search");
         // where("state",$state)->where("name","like","%".$search."%")->orWhere("surname","like","%".$search."%")->
-        $users = User::filterAdvance($state,$search)->where("type_user",2)->orderBy("id","desc")->paginate(20);
+        $users = User::filterAdvance($state, $search)->where("type_user", 2)->orderBy("id", "desc")->paginate(20);
 
         return response()->json([
             "total" => $users->total(),
@@ -47,10 +47,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::where("email",$request->email)->first();
-        if($user){
-            return response()->json(["message" => 400 ]);
-        }else{
+        $user = User::where("email", $request->email)->first();
+        if ($user) {
+            return response()->json(["message" => 400]);
+        } else {
             $user = User::create($request->all());
             return response()->json(["message" => 200, "user" => $user]);
         }
@@ -87,10 +87,10 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::where("email",$request->email)->where("id","<>",$id)->first();
-        if($user){
-            return response()->json(["message" => 400 ]);
-        }else{
+        $user = User::where("email", $request->email)->where("id", "<>", $id)->first();
+        if ($user) {
+            return response()->json(["message" => 400]);
+        } else {
             $user = User::findOrFail($id);
             $user->update($request->all());
             return response()->json(["message" => 200, "user" => $user]);
@@ -108,5 +108,40 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
         return response()->json(["message" => 200]);
+    }
+
+    public function remove(Request $request)
+    {
+        $usuario = User::findOrFail($request->id);
+
+        try {
+
+            if ($usuario->state == 1) {
+                $usuario->update([
+                    'state' => 2
+                ]);
+            } else {
+                $usuario->update([
+                    'state' => 1
+                ]);
+            }
+
+
+            return response()->json(
+                [
+                    "message" => "usuario actualizado con éxito",
+                    "id" => $usuario->id,
+                    "success" => true
+                ],
+                200
+            );
+        } catch (\Exception $e) {
+
+            return response()->json([
+                "error" => $e->getMessage(),
+                "message" => "Error inesperado al actualizar el usuario: ",
+                "success" => false
+            ], 500);
+        }
     }
 }
