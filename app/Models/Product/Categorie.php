@@ -15,6 +15,7 @@ class Categorie extends Model
         "name",
         "imagen",
         "icono",
+        "state"
     ];
 
     public function setCreatedAtAttribute($value)

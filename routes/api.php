@@ -58,6 +58,7 @@ Route::group(['prefix' => 'products'], function ($router) {
         Route::post("/add", "Product\CategorieController@store");
         Route::post("/update/{id}", "Product\CategorieController@update");
         Route::delete("/delete/{id}", "Product\CategorieController@destroy");
+        Route::put('/remove/{id}', "Product\CategorieController@remove");
     });
 });
 Route::group(['prefix' => 'sliders'], function ($router) {

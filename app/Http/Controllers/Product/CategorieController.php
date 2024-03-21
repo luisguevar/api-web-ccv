@@ -20,13 +20,19 @@ class CategorieController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->search;
-        $categories = Categorie::where("name","like","%".$search."%")->orderBy("id","desc")->get();
+
+        $state = $request->get("state");
+
+        if ($state != '0') {
+            $categories = Categorie::where("state", $state)->orderBy("id", "desc")->get();
+        } else {
+            $categories = Categorie::orderBy("id", "desc")->get();
+        }
+
 
         return response()->json([
             "categorias" => $categories,
         ]);
-
     }
 
     /**
@@ -47,8 +53,8 @@ class CategorieController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->hasFile("imagen_file")){
-            $path = Storage::putFile("categorias",$request->file("imagen_file"));
+        if ($request->hasFile("imagen_file")) {
+            $path = Storage::putFile("categorias", $request->file("imagen_file"));
             $request->request->add(["imagen" => $path]);
         }
         $categorie = Categorie::create($request->all());
@@ -89,11 +95,11 @@ class CategorieController extends Controller
     public function update(Request $request, $id)
     {
         $categorie = Categorie::findOrFail($id);
-        if($request->hasFile("imagen_file")){
-            if($categorie->imagen){
+        if ($request->hasFile("imagen_file")) {
+            if ($categorie->imagen) {
                 Storage::delete($categorie->imagen);
             }
-            $path = Storage::putFile("categorias",$request->file("imagen_file"));
+            $path = Storage::putFile("categorias", $request->file("imagen_file"));
             $request->request->add(["imagen" => $path]);
         }
         $categorie->update($request->all());
@@ -114,5 +120,37 @@ class CategorieController extends Controller
         $categorie->delete();
 
         return response()->json(["message" => 200]);
+    }
+
+    public function remove(Request $request)
+    {
+        $categoria = Categorie::findOrFail($request->id);
+
+        try {
+
+            if ($categoria->state == 1) {
+                $categoria->update([
+                    'state' => 2
+                ]);
+            } 
+
+
+            return response()->json(
+                [
+                    "message" => "categoria actualizada con éxito",
+                    "id" => $categoria->id,
+                    "estado" =>$categoria->state,
+                    "success" => true
+                ],
+                200
+            );
+        } catch (\Exception $e) {
+
+            return response()->json([
+                "error" => $e->getMessage(),
+                "message" => "Error inesperado al actualizar la categoria: ",
+                "success" => false
+            ], 500);
+        }
     }
 }
