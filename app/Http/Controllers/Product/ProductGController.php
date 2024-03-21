@@ -30,11 +30,19 @@ class ProductGController extends Controller
     {
         $search = $request->search;
         $categorie_id = $request->categorie_id;
-        $products = Product::filterProduct($search,$categorie_id)->orderBy("id","desc")->paginate(30);
+
+        $state = $request->state;
+
+        if ($state != '0') {
+            $products = Product::where("state", $state)->get();
+        } else {
+            $products = Product::all();
+        }
+        //$products = Product::filterProduct($search, $categorie_id, $state)->orderBy("id", "desc")->paginate(30);
 
         return response()->json([
             "message" => 200,
-            "total" => $products->total(),
+            //"total" => $products->total(),
             "products" => ProductCCollection::make($products),
         ]);
     }
@@ -51,13 +59,13 @@ class ProductGController extends Controller
 
     public function get_info()
     {
-       $categories = Categorie::orderBy("id","desc")->get();
+        $categories = Categorie::orderBy("id", "desc")->get();
 
-       $products_colors = ProductColor::orderBy("id","desc")->get();
+        $products_colors = ProductColor::orderBy("id", "desc")->get();
 
-       $products_color_sizes = ProductSize::orderBy("id","desc")->get();
+        $products_color_sizes = ProductSize::orderBy("id", "desc")->get();
 
-       return response()->json(["categories" => $categories, "products_colors" => $products_colors , "products_color_sizes" => $products_color_sizes]);
+        return response()->json(["categories" => $categories, "products_colors" => $products_colors, "products_color_sizes" => $products_color_sizes]);
     }
     /**
      * Store a newly created resource in storage.
@@ -67,15 +75,15 @@ class ProductGController extends Controller
      */
     public function store(Request $request)
     {
-        $is_product = Product::where("title",$request->title)->first();
-        if($is_product){
+        $is_product = Product::where("title", $request->title)->first();
+        if ($is_product) {
             return response()->json(["message" => 403]);
         }
 
         // $request->request->add(["tags" => implode(",",$request->tags_e)]);
         $request->request->add(["slug" => Str::slug($request->title)]);
-        if($request->hasFile("imagen_file")){
-            $path = Storage::putFile("productos",$request->file("imagen_file"));
+        if ($request->hasFile("imagen_file")) {
+            $path = Storage::putFile("productos", $request->file("imagen_file"));
             $request->request->add(["imagen" => $path]);
         }
         $product = Product::create($request->all());
@@ -85,7 +93,7 @@ class ProductGController extends Controller
             $size = $file->getSize();
             $nombre = $file->getClientOriginalName();
 
-            $path = Storage::putFile("productos",$file);
+            $path = Storage::putFile("productos", $file);
             ProductImage::create([
                 "product_id" => $product->id,
                 "file_name" => $nombre,
@@ -95,7 +103,7 @@ class ProductGController extends Controller
             ]);
         }
 
-        return response()->json(["message" => 200 ]);
+        return response()->json(["message" => 200]);
     }
 
     /**
@@ -133,8 +141,8 @@ class ProductGController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $is_product = Product::where("id","<>",$id)->where("title",$request->title)->first();
-        if($is_product){
+        $is_product = Product::where("id", "<>", $id)->where("title", $request->title)->first();
+        if ($is_product) {
             return response()->json(["message" => 403]);
         }
 
@@ -142,13 +150,13 @@ class ProductGController extends Controller
 
         // $request->request->add(["tags" => implode(",",$request->tags_e)]);
         $request->request->add(["slug" => Str::slug($request->title)]);
-        if($request->hasFile("imagen_file")){
-            $path = Storage::putFile("productos",$request->file("imagen_file"));
+        if ($request->hasFile("imagen_file")) {
+            $path = Storage::putFile("productos", $request->file("imagen_file"));
             $request->request->add(["imagen" => $path]);
         }
         $product->update($request->all());
 
-        return response()->json(["message" => 200 ]);
+        return response()->json(["message" => 200]);
     }
 
     /**
@@ -160,5 +168,35 @@ class ProductGController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function remove(Request $request)
+    {
+        $producto = Product::findOrFail($request->id);
+
+        try {
+
+            $producto->update([
+                'state' => 3
+            ]);
+
+
+            return response()->json(
+                [
+                    "message" => "producto actualizado con éxito",
+                    "id" => $producto->id,
+                    "state" => $producto->state,
+                    "success" => true
+                ],
+                200
+            );
+        } catch (\Exception $e) {
+
+            return response()->json([
+                "error" => $e->getMessage(),
+                "message" => "Error inesperado al actualizar el producto: ",
+                "success" => false
+            ], 500);
+        }
     }
 }

@@ -39,6 +39,7 @@ Route::group(['prefix' => 'products'], function ($router) {
     Route::get("/get_info", "Product\ProductGController@get_info");
     Route::post("/add", "Product\ProductGController@store");
     Route::post("/update/{id}", "Product\ProductGController@update");
+    Route::put("/remove/{id}", "Product\ProductGController@remove");
     Route::get("/all", "Product\ProductGController@index");
     Route::get("/show_product/{id}", "Product\ProductGController@show");
     Route::group(["prefix" => "inventario"], function () {
