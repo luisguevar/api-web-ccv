@@ -32,9 +32,9 @@ class ProductEResource extends JsonResource
             "title" => $this->resource->title,
             "categorie_id" => $this->resource->categorie_id,
             "categorie" => [
-                "id" => $this->resource->categorie->id,
-                "icono" => $this->resource->categorie->icono,
-                "name" => $this->resource->categorie->name,
+                "id" => optional($this->resource->categorie)->id,
+                "icono" => optional($this->resource->categorie)->cIcono,
+                "name" => optional($this->resource->categorie)->cDescripcion,
             ],
             "slug" => $this->resource->slug,
             "sku" => $this->resource->sku,

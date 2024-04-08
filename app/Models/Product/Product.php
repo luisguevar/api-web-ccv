@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Sale\Review\Review;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Discount\DiscountProduct;
+use App\Models\Producto\Categoria;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -47,9 +48,10 @@ class Product extends Model
 
     public function categorie()
     {
-        return $this->belongsTo(Categorie::class);
+        return $this->belongsTo(Categoria::class);
     }
 
+    
     public function images()
     {
         return $this->hasMany(ProductImage::class);

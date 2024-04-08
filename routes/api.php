@@ -88,7 +88,6 @@ Route::group(['prefix' => 'proveedores'], function ($router) {
     Route::get("/show_proveedor/{id}", "Proveedor\ProveedorController@show");
     Route::put("/update/{id}", "Proveedor\ProveedorController@update");
     Route::put("/remove/{id}", "Proveedor\ProveedorController@remove");
-    
 });
 
 Route::group(['prefix' => 'clientes'], function ($router) {
@@ -147,4 +146,25 @@ Route::group(["prefix" => "ecommerce"], function ($router) {
 Route::group(['prefix' => 'paises'], function ($router) {
     Route::get("/all", "Pais\PaisController@index");
     Route::get("/show/{pais}", "Pais\PaisController@show");
+});
+
+
+//Modificacion:
+Route::group(['prefix' => 'productos'], function ($router) {
+
+    Route::group(["prefix" => "categorias"], function () {
+        Route::get("/all", "Producto\CategoriaController@index");
+        Route::post("/add", "Producto\CategoriaController@store");
+        Route::post("/update/{id}", "Producto\CategoriaController@update");
+        Route::put('/remove/{id}', "Producto\CategoriaController@remove");
+    });
+});
+
+Route::group(['prefix' => 'usuarios'], function ($router) {
+
+    Route::group(['prefix' => 'admin'], function () {
+        Route::get('/all', "Usuario\UsuarioController@index");
+        Route::post("/add", "Usuario\UsuarioController@store");
+        Route::post("/update/{id}", "Usuario\UsuarioController@update");
+    });
 });

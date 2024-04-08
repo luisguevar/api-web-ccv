@@ -4,6 +4,7 @@ namespace App\Models\Discount;
 
 use Carbon\Carbon;
 use App\Models\Product\Categorie;
+use App\Models\Producto\Categoria;
 use Illuminate\Database\Eloquent\Model;
 
 class DiscountCategorie extends Model
@@ -31,6 +32,6 @@ class DiscountCategorie extends Model
 
     public function categorie()
     {
-        return $this->belongsTo(Categorie::class);
+        return $this->belongsTo(Categoria::class);
     }
 }

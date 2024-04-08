@@ -8,6 +8,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+use function PHPSTORM_META\map;
+
 class JWTController extends Controller
 {
     /**
@@ -17,7 +19,7 @@ class JWTController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','loginAdmin','loginEcommerce', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'loginAdmin', 'loginEcommerce', 'register']]);
     }
 
     /**
@@ -33,17 +35,25 @@ class JWTController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
         $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'surname' => $request->surname,
-                "type_user" => $request->type_user,
-                'password' => Hash::make($request->password)
-            ]);
+            'name' => $request->name,
+            'email' => $request->email,
+            'surname' => $request->surname,
+            "type_user" => $request->type_user,
+            /* 'password' => Hash::make($request->password) */
+            'password' => $request->password, //ya no encriptamos, lo hace el modelo,
+            'state' => 1,
+            'cNombres' => $request->name,
+            'cApellidos' => $request->surname,
+            'nTipoUsuario' => 0,
+            'nRol' => 0,
+            'nEstado' => 1
+
+        ]);
         return response()->json([
             'message' => 'User successfully registered',
             'user' => $user
@@ -66,7 +76,7 @@ class JWTController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        if (!$token = auth('api')->attempt(["email" => $request->email , "password" => $request->password , "state" => 1 , "type_user" => 2])) {
+        if (!$token = auth('api')->attempt(["email" => $request->email, "password" => $request->password, "state" => 1, "type_user" => 2])) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -84,7 +94,7 @@ class JWTController extends Controller
             return response()->json($validator->errors(), 422);
         }
         // , "type_user" => 1
-        if (!$token = auth('api')->attempt(["email" => $request->email , "password" => $request->password , "state" => 1 ])) {
+        if (!$token = auth('api')->attempt(["email" => $request->email, "password" => $request->password, "state" => 1])) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 

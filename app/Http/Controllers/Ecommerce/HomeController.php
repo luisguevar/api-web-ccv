@@ -12,6 +12,7 @@ use App\Models\Product\ProductSize;
 use App\Http\Controllers\Controller;
 use App\Models\Product\ProductColor;
 use App\Http\Resources\Ecommerce\Product\ProductEResource;
+use App\Models\Producto\Categoria;
 
 class HomeController extends Controller
 {
@@ -20,7 +21,7 @@ class HomeController extends Controller
 
         $sliders = Slider::orderBy("id","desc")->get();
 
-        $categories = Categorie::withCount("products")->having("products_count",">",0)->orderBy("id","desc")->take(4)->get();
+        $categories = Categoria::withCount("products")->having("products_count",">",0)->orderBy("id","desc")->take(4)->get();
 
         $group_categories_product = collect([]);
         // dd($categories);
@@ -134,7 +135,7 @@ class HomeController extends Controller
 
     public function config_initial_filter()
     {
-        $categories = Categorie::withCount("products")->orderBy("id","desc")->get();
+        $categories = Categoria::withCount("products")->orderBy("id","desc")->get();
 
         $reviews = Review::select("rating",DB::raw("count(*) as total"))->groupBy("rating")->orderBy("id","desc")->get();
 
