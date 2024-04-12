@@ -153,6 +153,7 @@ class JWTController extends Controller
                 "surname" => $user->surname,
                 "email" => $user->email,
                 "role" => $user->role,
+                "cDocumento" => $user->cDocumento
             ],
         ]);
     }

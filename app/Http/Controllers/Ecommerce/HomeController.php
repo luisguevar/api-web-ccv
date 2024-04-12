@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Ecommerce;
 
+use App\Models\Producto\Producto;
 use App\Slider;
 use Illuminate\Http\Request;
-use App\Models\Product\Product;
+/* use App\Models\Product\Product; */
 use App\Models\Product\Categorie;
 use App\Models\Sale\Review\Review;
 use Illuminate\Support\Facades\DB;
@@ -27,7 +28,7 @@ class HomeController extends Controller
         // dd($categories);
         foreach ($categories as $key => $categorie) {
             $products = $categorie->products->take(3);
-            $group_categories_product->push([
+          /*   $group_categories_product->push([
                 "id" => $categorie->id,
                 "name" => $categorie->name,
                 "products" => $products->map(function($product) {
@@ -55,12 +56,12 @@ class HomeController extends Controller
                         "avg_rating" => round($product->avg_rating),
                     ];
                 }),
-            ]);
+            ]); */
         }
 
-        $products_aletorio_a = Product::inRandomOrder()->limit(4)->get();
+        $products_aletorio_a = Producto::inRandomOrder()->limit(4)->get();
 
-        $products_aletorio_b = Product::inRandomOrder()->limit(8)->get();
+        $products_aletorio_b = Producto::inRandomOrder()->limit(8)->get();
 
         return response()->json([
             "sliders" => $sliders->map(function($slider){
@@ -71,6 +72,7 @@ class HomeController extends Controller
                     "imagen" => env("APP_URL")."storage/".$slider->imagen,
                 ];
             }),
+
             "group_categories_product" => $group_categories_product,
             "products_aletorio_a" => $products_aletorio_a->map(function($product){
                 return ProductEResource::make($product);
@@ -84,11 +86,11 @@ class HomeController extends Controller
 
     public function detail_product($slug_product)
     {
-        $product = Product::where("slug",$slug_product)->first();
+        $product = Producto::where("slug",$slug_product)->first();
         if(!$product){
             return response()->json(["message" => 403]);
         }
-        $product_relateds = Product::where("id","<>",$product->id)->where("categorie_id",$product->categorie_id)->orderBy("id","asc")->get();
+        $product_relateds = Producto::where("id","<>",$product->id)->where("categorie_id",$product->categorie_id)->orderBy("id","asc")->get();
 
         $reviews = Review::where("product_id",$product->id)->orderBy("id","desc")->paginate(13);
 
@@ -125,7 +127,7 @@ class HomeController extends Controller
         $color_id = $request->color_id;
         $search_product = $request->search_product;
         // ->inRandomOrder() withCount("reviews")->
-        $products = Product::filterAdvance($categories,$review,$min_price,$max_price,$size_id,$color_id,$search_product)->get();
+        $products = Producto::filterAdvance($categories,$review,$min_price,$max_price,$size_id,$color_id,$search_product)->get();
 
         return response()->json(["products" => $products->map(function($product){
             return  ProductEResource::make($product);

@@ -11,6 +11,7 @@ use App\Models\Discount\DiscountCategorie;
 class Categoria extends Model
 {
     protected $fillable = [
+        "id",
         "cDescripcion",
         "cImagen",
         "cIcono",
@@ -21,8 +22,14 @@ class Categoria extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'categorie_id');
+        return $this->hasMany(Producto::class);
     }
+
+  /*   public function productos()
+    {
+        return $this->hasMany(Producto::class, 'categoria_id');
+    } */
+
 
     public function discountcategories()
     {

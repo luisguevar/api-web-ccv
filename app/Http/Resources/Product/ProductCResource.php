@@ -16,8 +16,21 @@ class ProductCResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "title" => $this->resource->title,
-            "categorie_id" => $this->resource->categorie_id,
+            "cDescripcion" => $this->resource->cDescripcion,
+            "categoria_id" => $this->resource->categoria_id,
+            "cImagen" => env("APP_URL") . "storage/" . $this->resource->cImagen,
+            //"cCategoria"=>$this->resource->categorie->cDescripcion,
+            "nPrecioPEN" => $this->resource->nPrecioPEN,
+            "nPrecioUSD" => $this->resource->nPrecioUSD,
+            "nEstado"=> $this->resource->nEstado,
+            "categoria" => [
+                "id" => $this->resource->categorie->id,
+                "cIcono" => $this->resource->categorie->cIcono,
+                "cDescripcion" => $this->resource->categorie->cDescripcion,
+            ],
+
+
+            /*   "categorie_id" => $this->resource->categorie_id,
             "categorie" => [
                 "id" => $this->resource->categorie->id,
                 "icono" => $this->resource->categorie->icono,
@@ -63,7 +76,7 @@ class ProductCResource extends JsonResource
                         ];
                     }),
                 ];
-            }),
+            }), */
             // "product_inventaries" =>
         ];
     }

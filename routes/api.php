@@ -149,9 +149,15 @@ Route::group(['prefix' => 'paises'], function ($router) {
 });
 
 
+
+
+
+
+
+
 //Modificacion:
 Route::group(['prefix' => 'productos'], function ($router) {
-
+    Route::get("/all", "Producto\ProductoController@index");
     Route::group(["prefix" => "categorias"], function () {
         Route::get("/all", "Producto\CategoriaController@index");
         Route::post("/add", "Producto\CategoriaController@store");
@@ -168,3 +174,4 @@ Route::group(['prefix' => 'usuarios'], function ($router) {
         Route::post("/update/{id}", "Usuario\UsuarioController@update");
     });
 });
+
