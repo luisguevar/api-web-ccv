@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Proveedor;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Product\ProductCCollection;
 use App\Models\Product\Product;
+use App\Models\Producto\Producto;
 use App\Models\Proveedor\Proveedore;
 use App\Models\Proveedor\ProveedoresContacto;
 use Illuminate\Http\Request;
@@ -95,6 +96,21 @@ class ProveedorController extends Controller
 
         try {
             $proveedor = Proveedore::create($request->all());
+
+            $idProveedor = $proveedor->id;
+            //guardar la lista de contactos
+
+            $listContactos = $request->input('listContactos');
+
+
+            foreach ($listContactos as $contacto) {
+                $contacto['proveedor_id'] = $idProveedor;
+                ProveedoresContacto::create($contacto);
+            }
+
+
+
+
             return response()->json([
                 "proveedor" => $proveedor,
                 "success" => true
@@ -164,20 +180,16 @@ class ProveedorController extends Controller
     public function show($id)
     {
         $proveedor = Proveedore::findOrFail($id);
-        //$contactos = ProveedoresContacto::orderBy("id", "desc")->where("proveedor_id", $id)->where("estado", 1)->get();
-        /*   $productos = Product::orderBy("id", "desc")
+        $contactos = ProveedoresContacto::orderBy("id", "desc")->where("proveedor_id", $id)->where("nEstado", 1)->get();
+        $productos = Producto::orderBy("id", "desc")
             ->where("proveedor_id", $id)
-            ->where(function ($query) {
-                $query->where("state", 1)
-                    ->orWhere('state', 2);
-            })
-            ->get();
- */
+            ->where("nEstado", "<>", 0)->get();
+
 
         return response()->json([
             "proveedor" =>  $proveedor,
-            /*  "contactos" => $contactos, */
-            /*   "productos" => ProductCCollection::make($productos), */
+            "contactos" => $contactos,
+            "productos" => ProductCCollection::make($productos),
         ]);
     }
 
@@ -188,6 +200,19 @@ class ProveedorController extends Controller
         try {
 
             $proveedor->update($request->all());
+
+            $listContacto = $request->input('listContactos');
+            foreach ($listContacto as $contacto) {
+                $contacto['proveedor_id'] = $proveedor->id;
+
+                if ($contacto['id'] > 0) {
+
+                    ProveedoresContacto::where('id', $contacto['id'])->update($contacto);
+                } else {
+
+                    ProveedoresContacto::create($contacto);
+                }
+            }
             return response()->json([
                 "proveedor" => $proveedor,
                 "success" => true

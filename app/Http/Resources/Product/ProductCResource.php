@@ -23,6 +23,7 @@ class ProductCResource extends JsonResource
             "nPrecioPEN" => $this->resource->nPrecioPEN,
             "nPrecioUSD" => $this->resource->nPrecioUSD,
             "nEstado" => $this->resource->nEstado,
+            "cNombreCategoria"=> $this->resource->categorie->cDescripcion,
             "categoria" => [
                 "id" => $this->resource->categorie->id,
                 "cIcono" => $this->resource->categorie->cIcono,
