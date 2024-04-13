@@ -14,168 +14,111 @@ class ProductoSeeder extends Seeder
     {
         $productos = [
             [
-                "cDescripcion" => "Corsair Vengeance LPX",
-                "categoria_id" => 1,
+                "cDescripcion" => "Laptop HP 156 FHD Core i5 8GB 512GB 15-DY5000LA",
+                "categoria_id" => 3,
                 "proveedor_id" => 1,
-                "cSlug" => "corsair-vengeance-lpx",
-                "cSku" => "CMK16GX4M2B3200C16",
-                "nPrecioPEN" => 50.99,
-                "nPrecioUSD" => 15.99,
-                "cResumen" => "Módulo de memoria RAM DDR4 de alto rendimiento.",
-                "cDescripcionDetallada" => "<p>La Corsair Vengeance LPX es una memoria RAM DDR4 con una capacidad de 16GB (2x8GB) y una velocidad de 3200MHz.</p>
-                <p>Dise&ntilde;ada para ofrecer un rendimiento excepcional, cuenta con un disipador de calor de perfil bajo para una mejor disipaci&oacute;n del calor y una mayor estabilidad en condiciones de carga intensiva. Ideal para usuarios que buscan un rendimiento fiable en aplicaciones exigentes y juegos.</p>",
-                "nEstado" => 1,
-                "cImagen" => "productos/er54yqFV6U52iE74lCInBVROyyMUyVPBEV4T6AK4.jpg",
+                "cSlug" => "laptop-hp-156-fhd-core-i5-8gb-512gb-15-dy5000la",
+                "cSku" => "116629282",
+                "nPrecioPEN" => 2199.00,
+                "nPrecioUSD" => 593.40,
+                "cResumen" => "Laptop HP 15,6 FHD Core i5 8GB 512GB 15-DY5000LA Diseñada para tu productividad.",
+                "cDescripcionDetallada" => "",
+                "cImagen" => "productos/GXxCDCIRhBDR6NZfO3yofCo9sM74Pz6gyEOwGKXq.jpg",
                 "nStock" => 100,
                 "nPrecioCompra" => 40.99,
                 "dFechaCompra" => "2023-01-15",
-              
+                "nEstado" => 1,
+
             ],
             [
-                "cDescripcion" => "Corsair Vengeance LPX",
-                "categoria_id" => 1,
+                "cDescripcion" => "Razer DeathAdder",
+                "categoria_id" => 2,
                 "proveedor_id" => 1,
-                "cSlug" => "corsair-vengeance-lpx",
-                "cSku" => "CMK16GX4M2B3200C16",
+                "cSlug" => "razer-deathadder",
+                "cSku" => "423343",
                 "nPrecioPEN" => 50.99,
                 "nPrecioUSD" => 15.99,
-                "cResumen" => "Módulo de memoria RAM DDR4 de alto rendimiento.",
-                "cDescripcionDetallada" => "<p>La Corsair Vengeance LPX es una memoria RAM DDR4 con una capacidad de 16GB (2x8GB) y una velocidad de 3200MHz.</p>
-                <p>Dise&ntilde;ada para ofrecer un rendimiento excepcional, cuenta con un disipador de calor de perfil bajo para una mejor disipaci&oacute;n del calor y una mayor estabilidad en condiciones de carga intensiva. Ideal para usuarios que buscan un rendimiento fiable en aplicaciones exigentes y juegos.</p>",
-                "nEstado" => 1,
-                "cImagen" => "productos/er54yqFV6U52iE74lCInBVROyyMUyVPBEV4T6AK4.jpg",
+                "cResumen" => "Razer DeathAdder Elite, el mejor ratón gamer para FPS, RTS y MOBA",
+                "cDescripcionDetallada" => "",
+                "cImagen" => "productos/0dHGWztfDEypDNXsH1q6dxDjPp1GVHnioWQDc90z.jpg",
                 "nStock" => 100,
                 "nPrecioCompra" => 40.99,
                 "dFechaCompra" => "2023-01-15",
-              
+                "nEstado" => 1,
+
             ],
             [
-                "cDescripcion" => "Corsair Vengeance LPX",
-                "categoria_id" => 1,
+                "cDescripcion" => "Ratón con cable SteelSeries Sensei",
+                "categoria_id" => 2,
                 "proveedor_id" => 1,
-                "cSlug" => "corsair-vengeance-lpx",
-                "cSku" => "CMK16GX4M2B3200C16",
+                "cSlug" => "raton-con-cable-steelseries-sensei",
+                "cSku" => "33434313413",
                 "nPrecioPEN" => 50.99,
                 "nPrecioUSD" => 15.99,
-                "cResumen" => "Módulo de memoria RAM DDR4 de alto rendimiento.",
-                "cDescripcionDetallada" => "<p>La Corsair Vengeance LPX es una memoria RAM DDR4 con una capacidad de 16GB (2x8GB) y una velocidad de 3200MHz.</p>
-                <p>Dise&ntilde;ada para ofrecer un rendimiento excepcional, cuenta con un disipador de calor de perfil bajo para una mejor disipaci&oacute;n del calor y una mayor estabilidad en condiciones de carga intensiva. Ideal para usuarios que buscan un rendimiento fiable en aplicaciones exigentes y juegos.</p>",
-                "nEstado" => 1,
-                "cImagen" => "productos/er54yqFV6U52iE74lCInBVROyyMUyVPBEV4T6AK4.jpg",
+                "cResumen" => "Ratón con cable SteelSeries Sensei Ten 10 Master E-game Lol",
+                "cDescripcionDetallada" => "",
+                "cImagen" => "productos/2z0b2aX0sSZjQ9Uju4403zNJPrpWVsoi78qhGY2Y.jpg",
                 "nStock" => 100,
                 "nPrecioCompra" => 40.99,
                 "dFechaCompra" => "2023-01-15",
-              
+                "nEstado" => 1,
+
             ],
             [
-                "cDescripcion" => "Corsair Vengeance LPX",
-                "categoria_id" => 1,
+                "cDescripcion" => "Laptop Gamer Predator Helios",
+                "categoria_id" => 3,
                 "proveedor_id" => 1,
-                "cSlug" => "corsair-vengeance-lpx",
+                "cSlug" => "laptop-gamer-predator-helios",
                 "cSku" => "CMK16GX4M2B3200C16",
                 "nPrecioPEN" => 50.99,
                 "nPrecioUSD" => 15.99,
-                "cResumen" => "Módulo de memoria RAM DDR4 de alto rendimiento.",
-                "cDescripcionDetallada" => "<p>La Corsair Vengeance LPX es una memoria RAM DDR4 con una capacidad de 16GB (2x8GB) y una velocidad de 3200MHz.</p>
-                <p>Dise&ntilde;ada para ofrecer un rendimiento excepcional, cuenta con un disipador de calor de perfil bajo para una mejor disipaci&oacute;n del calor y una mayor estabilidad en condiciones de carga intensiva. Ideal para usuarios que buscan un rendimiento fiable en aplicaciones exigentes y juegos.</p>",
-                "nEstado" => 1,
-                "cImagen" => "productos/er54yqFV6U52iE74lCInBVROyyMUyVPBEV4T6AK4.jpg",
+                "cResumen" => "Laptop Gamer Predator Helios 300 PH315-51-78NP 15.6'' Core i7 16GB 256GB SSD Nvidia GeForce GTX 1060",
+                "cDescripcionDetallada" => "",
+
+                "cImagen" => "productos/FfVrpEWPjDsTDjW1xzldNmkBUVRlmFIGTEGeRWQ7.jpg",
                 "nStock" => 100,
                 "nPrecioCompra" => 40.99,
                 "dFechaCompra" => "2023-01-15",
-              
+                "nEstado" => 1,
+
             ],
             [
-                "cDescripcion" => "Corsair Vengeance LPX",
+                "cDescripcion" => "Memoria G.skill Trident Z5",
                 "categoria_id" => 1,
                 "proveedor_id" => 1,
-                "cSlug" => "corsair-vengeance-lpx",
-                "cSku" => "CMK16GX4M2B3200C16",
+                "cSlug" => "memoria-gskill-trident-z5",
+                "cSku" => "41341341",
                 "nPrecioPEN" => 50.99,
                 "nPrecioUSD" => 15.99,
                 "cResumen" => "Módulo de memoria RAM DDR4 de alto rendimiento.",
-                "cDescripcionDetallada" => "<p>La Corsair Vengeance LPX es una memoria RAM DDR4 con una capacidad de 16GB (2x8GB) y una velocidad de 3200MHz.</p>
-                <p>Dise&ntilde;ada para ofrecer un rendimiento excepcional, cuenta con un disipador de calor de perfil bajo para una mejor disipaci&oacute;n del calor y una mayor estabilidad en condiciones de carga intensiva. Ideal para usuarios que buscan un rendimiento fiable en aplicaciones exigentes y juegos.</p>",
-                "nEstado" => 1,
-                "cImagen" => "productos/er54yqFV6U52iE74lCInBVROyyMUyVPBEV4T6AK4.jpg",
+                "cDescripcionDetallada" => "",
+
+                "cImagen" => "productos/a59WZ4LEeV0uZVB4NQb6R8lUD7RlRhhv7GCjT0n8.jpg",
                 "nStock" => 100,
                 "nPrecioCompra" => 40.99,
                 "dFechaCompra" => "2023-01-15",
-              
+                "nEstado" => 1,
+
             ],
             [
-                "cDescripcion" => "Corsair Vengeance LPX",
-                "categoria_id" => 1,
+                "cDescripcion" => "Teclado Mecánico",
+                "categoria_id" => 4,
                 "proveedor_id" => 1,
-                "cSlug" => "corsair-vengeance-lpx",
+                "cSlug" => "teclado-mecanico",
                 "cSku" => "CMK16GX4M2B3200C16",
                 "nPrecioPEN" => 50.99,
                 "nPrecioUSD" => 15.99,
-                "cResumen" => "Módulo de memoria RAM DDR4 de alto rendimiento.",
-                "cDescripcionDetallada" => "<p>La Corsair Vengeance LPX es una memoria RAM DDR4 con una capacidad de 16GB (2x8GB) y una velocidad de 3200MHz.</p>
-                <p>Dise&ntilde;ada para ofrecer un rendimiento excepcional, cuenta con un disipador de calor de perfil bajo para una mejor disipaci&oacute;n del calor y una mayor estabilidad en condiciones de carga intensiva. Ideal para usuarios que buscan un rendimiento fiable en aplicaciones exigentes y juegos.</p>",
-                "nEstado" => 1,
-                "cImagen" => "productos/er54yqFV6U52iE74lCInBVROyyMUyVPBEV4T6AK4.jpg",
+                "cResumen" => "Teclados para Juegos de PC de ANNE PRO",
+                "cDescripcionDetallada" => "",
+                "cImagen" => "productos/I0IGKaKMJNSqPAbbdDYaWT6b4IfL2XXXmcG0vFdb.jpg",
                 "nStock" => 100,
                 "nPrecioCompra" => 40.99,
                 "dFechaCompra" => "2023-01-15",
-              
-            ],
-            [
-                "cDescripcion" => "Corsair Vengeance LPX",
-                "categoria_id" => 1,
-                "proveedor_id" => 1,
-                "cSlug" => "corsair-vengeance-lpx",
-                "cSku" => "CMK16GX4M2B3200C16",
-                "nPrecioPEN" => 50.99,
-                "nPrecioUSD" => 15.99,
-                "cResumen" => "Módulo de memoria RAM DDR4 de alto rendimiento.",
-                "cDescripcionDetallada" => "<p>La Corsair Vengeance LPX es una memoria RAM DDR4 con una capacidad de 16GB (2x8GB) y una velocidad de 3200MHz.</p>
-                <p>Dise&ntilde;ada para ofrecer un rendimiento excepcional, cuenta con un disipador de calor de perfil bajo para una mejor disipaci&oacute;n del calor y una mayor estabilidad en condiciones de carga intensiva. Ideal para usuarios que buscan un rendimiento fiable en aplicaciones exigentes y juegos.</p>",
                 "nEstado" => 1,
-                "cImagen" => "productos/er54yqFV6U52iE74lCInBVROyyMUyVPBEV4T6AK4.jpg",
-                "nStock" => 100,
-                "nPrecioCompra" => 40.99,
-                "dFechaCompra" => "2023-01-15",
-              
-            ],
-            [
-                "cDescripcion" => "Corsair Vengeance LPX",
-                "categoria_id" => 1,
-                "proveedor_id" => 1,
-                "cSlug" => "corsair-vengeance-lpx",
-                "cSku" => "CMK16GX4M2B3200C16",
-                "nPrecioPEN" => 50.99,
-                "nPrecioUSD" => 15.99,
-                "cResumen" => "Módulo de memoria RAM DDR4 de alto rendimiento.",
-                "cDescripcionDetallada" => "<p>La Corsair Vengeance LPX es una memoria RAM DDR4 con una capacidad de 16GB (2x8GB) y una velocidad de 3200MHz.</p>
-                <p>Dise&ntilde;ada para ofrecer un rendimiento excepcional, cuenta con un disipador de calor de perfil bajo para una mejor disipaci&oacute;n del calor y una mayor estabilidad en condiciones de carga intensiva. Ideal para usuarios que buscan un rendimiento fiable en aplicaciones exigentes y juegos.</p>",
-                "nEstado" => 1,
-                "cImagen" => "productos/er54yqFV6U52iE74lCInBVROyyMUyVPBEV4T6AK4.jpg",
-                "nStock" => 100,
-                "nPrecioCompra" => 40.99,
-                "dFechaCompra" => "2023-01-15",
-              
-            ],
-            [
-                "cDescripcion" => "Corsair Vengeance LPX",
-                "categoria_id" => 1,
-                "proveedor_id" => 1,
-                "cSlug" => "corsair-vengeance-lpx",
-                "cSku" => "CMK16GX4M2B3200C16",
-                "nPrecioPEN" => 50.99,
-                "nPrecioUSD" => 15.99,
-                "cResumen" => "Módulo de memoria RAM DDR4 de alto rendimiento.",
-                "cDescripcionDetallada" => "<p>La Corsair Vengeance LPX es una memoria RAM DDR4 con una capacidad de 16GB (2x8GB) y una velocidad de 3200MHz.</p>
-                <p>Dise&ntilde;ada para ofrecer un rendimiento excepcional, cuenta con un disipador de calor de perfil bajo para una mejor disipaci&oacute;n del calor y una mayor estabilidad en condiciones de carga intensiva. Ideal para usuarios que buscan un rendimiento fiable en aplicaciones exigentes y juegos.</p>",
-                "nEstado" => 1,
-                "cImagen" => "productos/er54yqFV6U52iE74lCInBVROyyMUyVPBEV4T6AK4.jpg",
-                "nStock" => 100,
-                "nPrecioCompra" => 40.99,
-                "dFechaCompra" => "2023-01-15",
-              
-            ],
-            
+
+            ]
+
+
 
         ];
 

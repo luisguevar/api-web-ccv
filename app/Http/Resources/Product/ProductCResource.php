@@ -22,13 +22,31 @@ class ProductCResource extends JsonResource
             //"cCategoria"=>$this->resource->categorie->cDescripcion,
             "nPrecioPEN" => $this->resource->nPrecioPEN,
             "nPrecioUSD" => $this->resource->nPrecioUSD,
-            "nEstado"=> $this->resource->nEstado,
+            "nEstado" => $this->resource->nEstado,
             "categoria" => [
                 "id" => $this->resource->categorie->id,
                 "cIcono" => $this->resource->categorie->cIcono,
                 "cDescripcion" => $this->resource->categorie->cDescripcion,
             ],
-
+            "cSku" => $this->resource->cSku,
+            "nPrecioPEN" => $this->resource->nPrecioPEN,
+            "nPrecioUSD" => $this->resource->nPrecioUSD,
+            "nStock" => $this->resource->nStock,
+            "cResumen" => $this->resource->cResumen,
+            "cDescripcionDetallada" => $this->resource->cDescripcionDetallada,
+            /* "cImagen" => $this->resource->cImagen, */
+            "cImagen" => env("APP_URL")."storage/".$this->resource->cImagen,
+            "nPrecioCompra" => $this->resource->nPrecioCompra,
+            "dFechaCompra" => $this->resource->dFechaCompra,
+            "images" => $this->resource->images->map(function($img){
+                return [
+                    "id" => $img->id,
+                    "file_name" => $img->file_name,
+                    "imagen" => env("APP_URL")."storage/".$img->imagen,
+                    "size" => $img->size,
+                    "type" => $img->type,
+                ];
+            }),
 
             /*   "categorie_id" => $this->resource->categorie_id,
             "categorie" => [

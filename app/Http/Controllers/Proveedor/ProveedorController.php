@@ -23,6 +23,7 @@ class ProveedorController extends Controller
      */
     public function index()
     {
+        
         $proveedores = Proveedore::orderBy("id", "desc")->where("estado", 1)->get();
 
         return response()->json([

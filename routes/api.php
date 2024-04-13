@@ -158,6 +158,11 @@ Route::group(['prefix' => 'paises'], function ($router) {
 //Modificacion:
 Route::group(['prefix' => 'productos'], function ($router) {
     Route::get("/all", "Producto\ProductoController@index");
+    Route::post("/add", "Producto\ProductoController@store");
+    Route::post("/update/{id}", "Producto\ProductoController@update");
+    Route::post("/addImagen", "Producto\ProductoController@addImagen");
+    Route::delete("/removeImagen/{id}", "Producto\ProductoController@removeImagen");
+
     Route::group(["prefix" => "categorias"], function () {
         Route::get("/all", "Producto\CategoriaController@index");
         Route::post("/add", "Producto\CategoriaController@store");

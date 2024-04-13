@@ -23,7 +23,7 @@ class Producto extends Model
         "nEstado",
         "cImagen",
         "nStock",
-        "nPrecioComrpa",
+        "nPrecioCompra",
         "dFechaCompra",
         "cUsuarioCreacion",
         "cUsuarioModificacion"
@@ -48,7 +48,7 @@ class Producto extends Model
 
     public function images()
     {
-        return $this->hasMany(ProductImage::class);
+        return $this->hasMany(ProductImage::class, 'product_id');
     }
 
 }
