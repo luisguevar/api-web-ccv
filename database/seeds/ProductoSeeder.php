@@ -16,7 +16,7 @@ class ProductoSeeder extends Seeder
             [
                 "cDescripcion" => "Laptop HP 156 FHD Core i5 8GB 512GB 15-DY5000LA",
                 "categoria_id" => 3,
-                "proveedor_id" => 1,
+                "proveedor_id" => 6,
                 "cSlug" => "laptop-hp-156-fhd-core-i5-8gb-512gb-15-dy5000la",
                 "cSku" => "116629282",
                 "nPrecioPEN" => 2199.00,
@@ -33,7 +33,7 @@ class ProductoSeeder extends Seeder
             [
                 "cDescripcion" => "Razer DeathAdder",
                 "categoria_id" => 2,
-                "proveedor_id" => 1,
+                "proveedor_id" => 6,
                 "cSlug" => "razer-deathadder",
                 "cSku" => "423343",
                 "nPrecioPEN" => 50.99,
@@ -44,13 +44,13 @@ class ProductoSeeder extends Seeder
                 "nStock" => 100,
                 "nPrecioCompra" => 40.99,
                 "dFechaCompra" => "2023-01-15",
-                "nEstado" => 1,
+                "nEstado" => 2,
 
             ],
             [
                 "cDescripcion" => "Ratón con cable SteelSeries Sensei",
                 "categoria_id" => 2,
-                "proveedor_id" => 1,
+                "proveedor_id" => 5,
                 "cSlug" => "raton-con-cable-steelseries-sensei",
                 "cSku" => "33434313413",
                 "nPrecioPEN" => 50.99,
@@ -67,7 +67,7 @@ class ProductoSeeder extends Seeder
             [
                 "cDescripcion" => "Laptop Gamer Predator Helios",
                 "categoria_id" => 3,
-                "proveedor_id" => 1,
+                "proveedor_id" => 5,
                 "cSlug" => "laptop-gamer-predator-helios",
                 "cSku" => "CMK16GX4M2B3200C16",
                 "nPrecioPEN" => 50.99,
@@ -79,13 +79,13 @@ class ProductoSeeder extends Seeder
                 "nStock" => 100,
                 "nPrecioCompra" => 40.99,
                 "dFechaCompra" => "2023-01-15",
-                "nEstado" => 1,
+                "nEstado" => 2,
 
             ],
             [
                 "cDescripcion" => "Memoria G.skill Trident Z5",
                 "categoria_id" => 1,
-                "proveedor_id" => 1,
+                "proveedor_id" => 4,
                 "cSlug" => "memoria-gskill-trident-z5",
                 "cSku" => "41341341",
                 "nPrecioPEN" => 50.99,
@@ -103,7 +103,7 @@ class ProductoSeeder extends Seeder
             [
                 "cDescripcion" => "Teclado Mecánico",
                 "categoria_id" => 4,
-                "proveedor_id" => 1,
+                "proveedor_id" => 3,
                 "cSlug" => "teclado-mecanico",
                 "cSku" => "CMK16GX4M2B3200C16",
                 "nPrecioPEN" => 50.99,
@@ -114,7 +114,7 @@ class ProductoSeeder extends Seeder
                 "nStock" => 100,
                 "nPrecioCompra" => 40.99,
                 "dFechaCompra" => "2023-01-15",
-                "nEstado" => 1,
+                "nEstado" => 2,
 
             ]
 

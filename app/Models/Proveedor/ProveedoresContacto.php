@@ -9,13 +9,14 @@ class ProveedoresContacto extends Model
 {
     protected $fillable = [
         "proveedor_id",
-        "nombre",
-        "celular",
-        "correo",
-        "tipoDocumento",
-        "nroDocumento",
-        "estado",
-
+        "cNombreCompleto",
+        "cCelular",
+        "cCorreo",
+        "nTipoDocumento",
+        "cNroDocumento",
+        "nEstado",
+        "cUsuarioCreacion",
+        "cUsuarioModificacion"
 
     ];
 

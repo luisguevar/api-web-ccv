@@ -82,13 +82,7 @@ Route::group(['prefix' => 'cotizaciones'], function ($router) {
     Route::post("/addClienteRapido", "Cotizacion\CotizacionController@addClienteRapido");
 });
 
-Route::group(['prefix' => 'proveedores'], function ($router) {
-    Route::get("/all", "Proveedor\ProveedorController@index");
-    Route::post("/add", "Proveedor\ProveedorController@store");
-    Route::get("/show_proveedor/{id}", "Proveedor\ProveedorController@show");
-    Route::put("/update/{id}", "Proveedor\ProveedorController@update");
-    Route::put("/remove/{id}", "Proveedor\ProveedorController@remove");
-});
+
 
 Route::group(['prefix' => 'clientes'], function ($router) {
     Route::get("/all", "Cliente\ClienteController@index");
@@ -156,6 +150,17 @@ Route::group(['prefix' => 'paises'], function ($router) {
 
 
 //Modificacion:
+
+
+Route::group(['prefix' => 'usuarios'], function ($router) {
+
+    Route::group(['prefix' => 'admin'], function () {
+        Route::get('/all', "Usuario\UsuarioController@index");
+        Route::post("/add", "Usuario\UsuarioController@store");
+        Route::post("/update/{id}", "Usuario\UsuarioController@update");
+    });
+});
+
 Route::group(['prefix' => 'productos'], function ($router) {
     Route::get("/all", "Producto\ProductoController@index");
     Route::post("/add", "Producto\ProductoController@store");
@@ -171,12 +176,10 @@ Route::group(['prefix' => 'productos'], function ($router) {
     });
 });
 
-Route::group(['prefix' => 'usuarios'], function ($router) {
-
-    Route::group(['prefix' => 'admin'], function () {
-        Route::get('/all', "Usuario\UsuarioController@index");
-        Route::post("/add", "Usuario\UsuarioController@store");
-        Route::post("/update/{id}", "Usuario\UsuarioController@update");
-    });
+Route::group(['prefix' => 'proveedores'], function ($router) {
+    Route::get("/all", "Proveedor\ProveedorController@index");
+    Route::post("/add", "Proveedor\ProveedorController@store");
+    Route::get("/show_proveedor/{id}", "Proveedor\ProveedorController@show");
+    Route::put("/update/{id}", "Proveedor\ProveedorController@update");
+    Route::put("/remove/{id}", "Proveedor\ProveedorController@remove");
 });
-

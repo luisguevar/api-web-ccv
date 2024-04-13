@@ -14,17 +14,54 @@ class ProveedorController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        /*   $this->middleware('auth:api'); */
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        
-        $proveedores = Proveedore::orderBy("id", "desc")->where("estado", 1)->get();
+
+        $nEstado = $request->get("nEstado");
+        if ($nEstado == 1 || $nEstado == 0) {
+            $proveedores = Proveedore::where("nEstado", $nEstado)->orderBy("id", "desc")->get();
+        } else {
+            $proveedores = Proveedore::orderBy("id", "desc")->get();
+        }
+
+        return response()->json([
+            "proveedores" => $proveedores->map(function ($proveedor) {
+                $nroContactos = $proveedor->contactos()->count();
+                $nroProductos = $proveedor->productos()->count();
+                // Limitar cActividadPrincipal a 40 caracteres y agregar "..." si es necesario
+                $cActividadPrincipal = strlen($proveedor->cActividadPrincipal) > 38 ?
+                    substr($proveedor->cActividadPrincipal, 0, 35) . "..." :
+                    $proveedor->cActividadPrincipal;
+
+                return [
+
+                    "id" => $proveedor->id,
+                    "nTipoPersona" => $proveedor->nTipoPersona,
+                    "nTipoDocumento" => $proveedor->nTipoDocumento,
+                    "cNroDocumento" => $proveedor->cNroDocumento,
+                    "cRazonSocial" => $proveedor->cRazonSocial,
+                    "cCelular" => $proveedor->cCelular,
+                    "cCorreo" => $proveedor->cCorreo,
+                    "cPaginaWeb" => $proveedor->cPaginaWeb,
+                    "cDireccion" => $proveedor->cDireccion,
+                    "cActividadPrincipal" => $cActividadPrincipal,
+                    "cObservaciones" => $proveedor->cObservaciones,
+                    "nEstado" => $proveedor->nEstado,
+                    "nroContactos" => $nroContactos,
+                    "nroProductos" => $nroProductos,
+
+                ];
+            }),
+        ]);
+
+        /*  $proveedores = Proveedore::orderBy("id", "desc")->where("estado", 1)->get();
 
         return response()->json([
             "proveedores" => $proveedores->map(function ($proveedor) {
@@ -50,12 +87,28 @@ class ProveedorController extends Controller
                 ];
             }),
 
-        ]);
+        ]); */
     }
 
     public function store(Request $request)
     {
+
         try {
+            $proveedor = Proveedore::create($request->all());
+            return response()->json([
+                "proveedor" => $proveedor,
+                "success" => true
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "error" => $e->getMessage(),
+                "message" => "Error inesperado al crear un proveedor ",
+                "success" => false
+            ], 500);
+        }
+
+
+        /*  try {
             DB::beginTransaction();
             // Crear un nuevo proveedor con los datos proporcionados
             $proveedor = new Proveedore([
@@ -105,26 +158,26 @@ class ProveedorController extends Controller
                 "message" => "Error inesperado al guardar el proveedor: ",
                 "success" => false
             ], 500);
-        }
+        } */
     }
 
     public function show($id)
     {
         $proveedor = Proveedore::findOrFail($id);
-        $contactos = ProveedoresContacto::orderBy("id", "desc")->where("proveedor_id", $id)->where("estado", 1)->get();
-        $productos = Product::orderBy("id", "desc")
+        //$contactos = ProveedoresContacto::orderBy("id", "desc")->where("proveedor_id", $id)->where("estado", 1)->get();
+        /*   $productos = Product::orderBy("id", "desc")
             ->where("proveedor_id", $id)
             ->where(function ($query) {
                 $query->where("state", 1)
                     ->orWhere('state', 2);
             })
             ->get();
-
+ */
 
         return response()->json([
             "proveedor" =>  $proveedor,
-            "contactos" => $contactos,
-            "productos" => ProductCCollection::make($productos),
+            /*  "contactos" => $contactos, */
+            /*   "productos" => ProductCCollection::make($productos), */
         ]);
     }
 
@@ -133,7 +186,14 @@ class ProveedorController extends Controller
         $proveedor = Proveedore::findOrFail($request->id);
 
         try {
-            $proveedor->update([
+
+            $proveedor->update($request->all());
+            return response()->json([
+                "proveedor" => $proveedor,
+                "success" => true
+            ]);
+
+            /* $proveedor->update([
                 'tipoPersona' => $request->input('tipoPersona'),
                 'tipoDocumento' => $request->input('tipoDocumento'),
                 'nroDocumento' => $request->input('nroDocumento'),
@@ -168,7 +228,7 @@ class ProveedorController extends Controller
                     "success" => true
                 ],
                 200
-            );
+            ); */
         } catch (\Exception $e) {
 
             return response()->json([
@@ -185,7 +245,7 @@ class ProveedorController extends Controller
 
         try {
             $proveedor->update([
-                'estado' => 0
+                'nEstado' => 0
             ]);
 
             return response()->json(

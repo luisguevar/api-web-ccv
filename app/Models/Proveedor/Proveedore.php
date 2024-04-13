@@ -3,23 +3,26 @@
 namespace App\Models\Proveedor;
 
 use App\Models\Product\Product;
+use App\Models\Producto\Producto;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
 class Proveedore extends Model
 {
     protected $fillable = [
-        "tipoPersona",
-        "tipoDocumento",
-        "nroDocumento",
-        "razon_social",
-        "celular",
-        "correo",
-        "web",
-        "direccion",
-        "observaciones",
-        "actividad",
-        "estado",
+        "nTipoPersona",
+        "nTipoDocumento",
+        "cNroDocumento",
+        "cRazonSocial",
+        "cCelular",
+        "cCorreo",
+        "cPaginaWeb",
+        "cDireccion",
+        "cActividadPrincipal",
+        "cObservaciones",
+        "nEstado",
+        "cUsuarioCreacion",
+        "cUsuarioModificacion"
 
     ];
 
@@ -37,15 +40,15 @@ class Proveedore extends Model
 
     public function contactos()
     {
-        return $this->hasMany(ProveedoresContacto::class, 'proveedor_id')->where('estado', 1);
+        return $this->hasMany(ProveedoresContacto::class, 'proveedor_id')->where('nEstado', '<>', 0);
     }
 
     public function productos()
     {
-        return $this->hasMany(Product::class, 'proveedor_id')
-            ->where(function ($query) {
+        return $this->hasMany(Producto::class, 'proveedor_id')->where('nEstado', '<>', 0);
+        /* ->where(function ($query) {
                 $query->where('state', 1)
                     ->orWhere('state', 2);
-            });
+            }); */
     }
 }
