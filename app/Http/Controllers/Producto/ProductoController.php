@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Producto;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\Product\ProductCCollection;
+use App\Http\Resources\Product\ProductCResource;
 use App\Models\Producto\Producto;
 use App\Models\Product\ProductImage;
 use Illuminate\Support\Str;
@@ -121,7 +122,11 @@ class ProductoController extends Controller
      */
     public function show($id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+
+        return response()->json([
+            "product" => ProductCResource::make($producto),
+        ]);
     }
 
     /**
@@ -161,7 +166,7 @@ class ProductoController extends Controller
             }
             $producto->update($request->all());
 
-            
+
 
             return response()->json([
                 "producto" => $producto,
@@ -187,7 +192,7 @@ class ProductoController extends Controller
         //
     }
 
-   
+
 
     public function addImagen(Request $request)
     {
@@ -227,5 +232,4 @@ class ProductoController extends Controller
         $imagen->delete();
         return response()->json(["message" => 200]);
     }
-    
 }

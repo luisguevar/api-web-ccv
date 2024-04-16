@@ -18,6 +18,7 @@ class ProductCResource extends JsonResource
             "id" => $this->id,
             "cDescripcion" => $this->resource->cDescripcion,
             "categoria_id" => $this->resource->categoria_id,
+            "proveedor_id" => $this->resource->proveedor_id,
             "cImagen" => env("APP_URL") . "storage/" . $this->resource->cImagen,
             //"cCategoria"=>$this->resource->categorie->cDescripcion,
             "nPrecioPEN" => $this->resource->nPrecioPEN,
