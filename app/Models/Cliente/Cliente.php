@@ -8,17 +8,18 @@ use Carbon\Carbon;
 class Cliente extends Model
 {
     protected $fillable = [
-        "nombres",
-        "apellidos",
-        "correo",
-        "nroDocumento",
-        "estado",
-        "contacto",
-        "tipoPersona",
-        "pais",
-        "departamento",
-        "direccion",
-        "observacion"
+        "cNombres",
+        "cApellidos",
+        "cCorreo",
+        "nTipoPersona",
+        "nTipoDocumento",
+        "cNroDocumento",
+        "cCelular",
+        "nEstado",
+        "cUsuarioCreacion",
+        "cUsuarioModificacion",
+        "usuario_id"
+
     ];
 
     public function setCreatedAtAttribute($value)
