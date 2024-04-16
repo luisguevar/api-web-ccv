@@ -8,6 +8,7 @@ use App\Models\Product\Product;
 use App\Models\Product\ProductSize;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Product\ProductColorSize;
+use App\Models\Producto\Producto;
 
 class CartShop extends Model
 {
@@ -44,7 +45,7 @@ class CartShop extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Producto::class);
     }
 
     public function product_size()
