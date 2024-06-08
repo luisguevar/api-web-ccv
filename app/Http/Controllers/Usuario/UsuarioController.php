@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Usuario;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UsuarioController extends Controller
 {
@@ -32,7 +33,35 @@ class UsuarioController extends Controller
 
         try {
 
+            // Realizar la búsqueda manual para el correo electrónico y el DNI
+            $emailExists = User::where('email', $request->email)->where('nEstado', 1)->exists();
+            $documentoExists = User::where('cDocumento', $request->cDocumento)->where('nEstado', 1)->exists();
+
+            // Mensajes de error
+            $errorMessage = '';
+
+            if ($emailExists) {
+                $errorMessage = 'El correo electrónico ya existe entre los usuarios activos. ';
+            }
+
+            if ($documentoExists) {
+                $errorMessage = 'El DNI ya existe entre los usuarios activos. ';
+            }
+
+            if ($documentoExists && $emailExists) {
+                $errorMessage = 'DNI y correo electrónico ya existentes entre los usuarios activos. ';
+            }
+
+            // Si hay errores, devolver la respuesta
+            if ($emailExists || $documentoExists) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $errorMessage ?: 'Datos proporcionados son inválidos.'
+                ], 400); // Código de respuesta 400: Solicitud incorrecta
+            }
+
             $usuario = User::create($request->all());
+
             return response()->json([
                 "usuario" => $usuario,
                 "success" => true
@@ -49,6 +78,34 @@ class UsuarioController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Realizar la búsqueda manual para el correo electrónico y el DNI
+        $emailExists = User::where('email', $request->email)->where('nEstado', 1)->where('id', '<>',  $id)->exists();
+        $documentoExists = User::where('cDocumento', $request->cDocumento)->where('nEstado', 1)->where('id', '<>',  $id)->exists();
+
+        // Mensajes de error
+        $errorMessage = '';
+
+        if ($emailExists) {
+            $errorMessage = 'El correo electrónico ya existe entre los usuarios activos. ';
+        }
+
+        if ($documentoExists) {
+            $errorMessage = 'El DNI ya existe entre los usuarios activos. ';
+        }
+
+        if ($documentoExists && $emailExists) {
+            $errorMessage = 'DNI y correo electrónico ya existentes entre los usuarios activos. ';
+        }
+
+        // Si hay errores, devolver la respuesta
+        if ($emailExists || $documentoExists) {
+            return response()->json([
+                'success' => false,
+                'message' => $errorMessage ?: 'Datos proporcionados son inválidos.'
+            ], 400); // Código de respuesta 400: Solicitud incorrecta
+        }
+
+
         $usuario = User::findOrFail($id);
 
         try {

@@ -32,7 +32,9 @@ class UsuarioSeeder extends Seeder
                 'password' => '12345678',
                 'type_user' => 2,
                 'state' => 1,
-                'role_id' => 1
+                'role_id' => 1,
+                'cUsuarioCreacion' => '74757790',
+                'cUsuarioModificacion' => '74757790',
 
             ],
 
@@ -54,7 +56,9 @@ class UsuarioSeeder extends Seeder
                 'password' => '12345678',
                 'type_user' => 1,
                 'state' => 1,
-                'role_id' => 1
+                'role_id' => 1,
+                'cUsuarioCreacion' => '74757790',
+                'cUsuarioModificacion' => '74757790',
 
             ]
         );

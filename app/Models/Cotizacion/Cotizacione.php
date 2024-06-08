@@ -11,17 +11,18 @@ use App\Models\Cliente\Cliente;
 class Cotizacione extends Model
 {
     protected $fillable = [
-        "cliente_id",
-        "vendedor_id",
-        "fechaEmision",
-        "fechaExpiracion",
-        "total",
-        "observaciones",
-        "estadoCotizacion",
-        "tieneDescuento",
-        "descuento",
-        "estado",
+        'cliente_id',
+        'vendedor_id',
+        'dFechaEmision',  
+        'dFechaExpiracion',  
+        'nTotal',  
+        'cObservaciones',  
+        'nEstadoCotizacion',  
+        'nTieneDescuento',  
+        'nDescuento',  
+        'nEstado',  
     ];
+
 
     public function setCreatedAtAttribute($value)
     {

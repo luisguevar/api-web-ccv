@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use App\Models\Client\AddressUser;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -32,6 +33,8 @@ class User extends Authenticatable implements JWTSubject
         'nTipoUsuario',
         'nRol',
         'nEstado',
+        'cUsuarioCreacion',
+        'cUsuarioModificacion',
     ];
 
     public function setPasswordAttribute($password)
@@ -107,5 +110,16 @@ class User extends Authenticatable implements JWTSubject
     public function cotizacionesUsuarios()
     {
         return $this->hasMany(Cotizacione::class, 'vendedor_id');
+    }
+
+    public function setCreatedAtAttribute($value)
+    {
+        date_default_timezone_set("America/Lima");
+        $this->attributes["created_at"] = Carbon::now();
+    }
+    public function setUpdatedAtAttribute($value)
+    {
+        date_default_timezone_set("America/Lima");
+        $this->attributes["updated_at"] = Carbon::now();
     }
 }
