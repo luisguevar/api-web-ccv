@@ -22,13 +22,16 @@ class ClienteController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->search;
-        $clientes = Cliente::where("estado","=","1")->orderBy("id","desc")->get();
+        $nEstado = $request->get("nEstado");
+        if ($nEstado == 1 || $nEstado == 0) {
+            $clientes = Cliente::where("nEstado", $nEstado)->orderBy("id", "desc")->get();
+        } else {
+            $clientes = Cliente::orderBy("id", "desc")->get();
+        }
 
         return response()->json([
             "clientes" => $clientes,
         ]);
-
     }
 
     /**
@@ -49,10 +52,49 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        $cliente = Cliente::create($request->all());
-        return response()->json([
-            "cliente" => $cliente,
-        ]);
+
+        try {
+
+            // Realizar la búsqueda manual para el correo electrónico y el DNI
+            $emailExists = Cliente::where('cCorreo', $request->cCorreo)->where('nEstado', 1)->exists();
+            $documentoExists = Cliente::where('cNroDocumento', $request->cNroDocumento)->where('nEstado', 1)->exists();
+
+            // Mensajes de error
+            $errorMessage = '';
+
+            if ($emailExists) {
+                $errorMessage = 'El correo electrónico ya existe entre los clientes activos. ';
+            }
+
+            if ($documentoExists) {
+                $errorMessage = 'El DNI ya existe entre los clientes activos. ';
+            }
+
+            if ($documentoExists && $emailExists) {
+                $errorMessage = 'DNI y correo electrónico ya existentes entre los clientes activos. ';
+            }
+
+            // Si hay errores, devolver la respuesta
+            if ($emailExists || $documentoExists) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $errorMessage ?: 'Datos proporcionados son inválidos.'
+                ], 400); // Código de respuesta 400: Solicitud incorrecta
+            }
+
+            $cliente = Cliente::create($request->all());
+            return response()->json([
+                "cliente" => $cliente,
+                "success" => true
+            ]);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                "error" => $e->getMessage(),
+                "message" => "Error inesperado al crear un cliente",
+                "success" => false
+            ], 500);
+        }
     }
     //
 
@@ -77,7 +119,7 @@ class ClienteController extends Controller
 
             return response()->json([
                 "error" => $e->getMessage(),
-                "message" => "Error inesperado al actualizar el cliente: ",
+                "message" => "Error inesperado al actualizar el cliente. ",
                 "success" => false
             ], 500);
         }
@@ -117,12 +159,51 @@ class ClienteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cliente = Cliente::findOrFail($id);
-        
-        $cliente->update($request->all());
-        return response()->json([
-            "cliente" => $cliente,
-        ]);
+       // Realizar la búsqueda manual para el correo electrónico y el DNI
+       $emailExists = Cliente::where('cCorreo', $request->cCorreo)->where('nEstado', 1)->where('id', '<>',  $id)->exists();
+       $documentoExists = Cliente::where('cNroDocumento', $request->cNroDocumento)->where('nEstado', 1)->where('id', '<>',  $id)->exists();
+
+       // Mensajes de error
+       $errorMessage = '';
+
+       if ($emailExists) {
+           $errorMessage = 'El correo electrónico ya existe entre los clientes activos. ';
+       }
+
+       if ($documentoExists) {
+           $errorMessage = 'El DNI ya existe entre los clientes activos. ';
+       }
+
+       if ($documentoExists && $emailExists) {
+           $errorMessage = 'DNI y correo electrónico ya existentes entre los clientes activos. ';
+       }
+
+       // Si hay errores, devolver la respuesta
+       if ($emailExists || $documentoExists) {
+           return response()->json([
+               'success' => false,
+               'message' => $errorMessage ?: 'Datos proporcionados son inválidos.'
+           ], 400); // Código de respuesta 400: Solicitud incorrecta
+       }
+
+
+       $cliente = Cliente::findOrFail($id);
+
+       try {
+
+           $cliente->update($request->all());
+           return response()->json([
+               "cliente" => $cliente,
+               "success" => true
+           ]);
+       } catch (\Exception $e) {
+
+           return response()->json([
+               "error" => $e->getMessage(),
+               "message" => "Error inesperado al actualizar el cliente ",
+               "success" => false
+           ], 500);
+       }
     }
 
     /**
@@ -132,7 +213,7 @@ class ClienteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {       
+    {
         $cliente = Cliente::findOrFail($id);
 
         try {
@@ -157,8 +238,4 @@ class ClienteController extends Controller
             ], 500);
         }
     }
-
-
-
-
 }

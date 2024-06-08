@@ -16,6 +16,9 @@ class Cliente extends Model
         "cNroDocumento",
         "cCelular",
         "nEstado",
+        'cDireccion',
+        'pais_id',
+        'ciudad_id',
         "cUsuarioCreacion",
         "cUsuarioModificacion",
         "usuario_id"

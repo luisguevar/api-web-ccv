@@ -22,10 +22,12 @@ class CreateClientesTable extends Migration
             $table->integer('nTipoDocumento')->default(1);
             $table->string('cNroDocumento');
             $table->string('cCelular');
+            $table->string('cDireccion');
+            $table->integer('pais_id');
+            $table->string('ciudad_id');
             $table->tinyInteger('nEstado');
             $table->string('cUsuarioCreacion');
             $table->string('cUsuarioModificacion')->nullable();
-            $table->integer('usuario_id');
             $table->timestamps();
         });
     }

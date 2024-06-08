@@ -22,8 +22,7 @@ class ClienteSeeder extends Seeder
             "cCelular" => "967895756",
             "nEstado" => 1,
             "cUsuarioCreacion" => "74757790",
-            "cUsuarioModificacion" => "74757790",
-            "usuario_id" => 2
+            "cUsuarioModificacion" => "74757790"
         ]);
     }
 }
