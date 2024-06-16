@@ -163,6 +163,7 @@ Route::group(['prefix' => 'usuarios'], function ($router) {
 
 Route::group(['prefix' => 'productos'], function ($router) {
     Route::get("/all", "Producto\ProductoController@index");
+    Route::get("/sp_all", "Producto\ProductoController@lstProductos");
     Route::get("/show_producto/{id}", "Producto\ProductoController@show");
     Route::post("/add", "Producto\ProductoController@store");
     Route::post("/update/{id}", "Producto\ProductoController@update");

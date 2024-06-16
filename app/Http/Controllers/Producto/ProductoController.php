@@ -8,6 +8,7 @@ use App\Http\Resources\Product\ProductCCollection;
 use App\Http\Resources\Product\ProductCResource;
 use App\Models\Producto\Producto;
 use App\Models\Product\ProductImage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,6 +19,27 @@ class ProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function lstProductos(Request $request)
+    {
+        // Obtener los valores de nEstado, categoria_id, nTipoStock, startDate y endDate de la solicitud
+        $nEstado = $request->input('nEstado', -1);
+        $categoria_id = $request->input('categoria_id', 0);
+        $nTipoStock = $request->input('nTipoStock', -1);
+        $startDate = $request->input('fechaInicio', null);
+        $endDate = $request->input('fechaFin', null);
+
+        // Llamar al procedimiento almacenado con los parámetros
+        $productos = DB::select('CALL SP_GETALLPRODUCTS(?, ?, ?, ?, ?)', [$nEstado, $categoria_id, $nTipoStock, $startDate, $endDate]);
+
+        return response()->json([
+            "message" => 200,
+            "productos" => $productos,
+        ]);
+    }
+
+
+
     public function index(Request $request)
     {
 
@@ -27,6 +49,7 @@ class ProductoController extends Controller
         } else {
             $productos = Producto::where("nEstado", $nEstado)->orderBy("id", "desc")->get();
         }
+
 
         return response()->json([
             "message" => 200,
