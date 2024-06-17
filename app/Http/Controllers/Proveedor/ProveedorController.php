@@ -15,7 +15,7 @@ class ProveedorController extends Controller
 {
     public function __construct()
     {
-        /*   $this->middleware('auth:api'); */
+        $this->middleware('auth:api');
     }
     /**
      * Display a listing of the resource.
@@ -180,7 +180,7 @@ class ProveedorController extends Controller
     public function show($id)
     {
         $proveedor = Proveedore::findOrFail($id);
-        $contactos = ProveedoresContacto::orderBy("id", "desc")->where("proveedor_id", $id)->where("nEstado", 1)->get();
+        $contactos = ProveedoresContacto::orderBy("id", "desc")->where("proveedor_id", $id)->get();
         $productos = Producto::orderBy("id", "desc")
             ->where("proveedor_id", $id)
             ->where("nEstado", "<>", 0)->get();
