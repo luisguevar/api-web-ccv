@@ -2,22 +2,30 @@
 
 namespace App\Models\Cotizacion;
 
+use App\Models\Producto\Producto;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\User;
 
 class CotizacionesProducto extends Model
 {
-    protected $table = 'detalle_cotizaciones';
+    protected $table = 'cotizacion_productos';
 
     protected $fillable = [
         "cotizacion_id",
         "producto_id",
-        "cantidad",
-        "precio",
-        "descuento",
-        "estado",
+        "nCantidad",
+        "nPrecioUnitario",
+        "nDescuento",
+        "nEstado",
+        "cUsuarioCreacion",
+        "cUsuarioModificacion",
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Producto::class, 'producto_id');
+    }
 
     public function setCreatedAtAttribute($value)
     {

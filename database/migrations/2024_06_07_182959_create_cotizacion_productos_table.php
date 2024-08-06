@@ -15,14 +15,15 @@ class CreateCotizacionProductosTable extends Migration
     {
         Schema::create('cotizacion_productos', function (Blueprint $table) {
             $table->id();
+            $table->integer('cotizacion_id');
+            $table->integer('producto_id');
             $table->integer('nCantidad');
-            $table->integer('nPrecioUnitario');
-            $table->integer('nDescuento');
+            $table->decimal('nPrecioUnitario', 10, 2);
+            $table->decimal('nDescuento')->default(0);
             $table->tinyInteger('nEstado');
             $table->string('cUsuarioCreacion');
             $table->string('cUsuarioModificacion')->nullable();
-            $table->integer('cotizacion_id');
-            $table->integer('producto_id');
+
             $table->timestamps();
         });
     }

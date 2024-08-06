@@ -17,7 +17,7 @@ class CreateClientesTable extends Migration
             $table->id();
             $table->string('cNombres');
             $table->string('cApellidos');
-            $table->string('cCorreo', 191)->unique();
+            $table->string('cCorreo', 191);
             $table->integer('nTipoPersona')->default(1);
             $table->integer('nTipoDocumento')->default(1);
             $table->string('cNroDocumento');

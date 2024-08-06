@@ -19,22 +19,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::group(['prefix' => 'users'], function ($router) {
-    Route::post('/register', "JWTController@register");
-    Route::post('/login', "JWTController@loginAdmin");
-    Route::post('/login_ecommerce', "JWTController@loginEcommerce");
-    Route::post('/logout', "JWTController@logout");
-    Route::post('/refresh', "JWTController@refresh");
-    Route::post('/profile', "JWTController@profile");
-    //
-    Route::group(['prefix' => 'admin'], function () {
-        Route::get('/all', "UserController@index");
-        Route::post('/register', "UserController@store");
-        Route::put('/update/{id}', "UserController@update");
-        Route::put('/remove/{id}', "UserController@remove");
-        Route::delete('/delete/{id}', "UserController@destroy");
-    });
-});
+
 Route::group(['prefix' => 'products'], function ($router) {
     Route::get("/get_info", "Product\ProductGController@get_info");
     Route::post("/add", "Product\ProductGController@store");
@@ -69,28 +54,11 @@ Route::group(['prefix' => 'sliders'], function ($router) {
     Route::delete("/delete/{id}", "Slider\SliderController@destroy");
 });
 
-Route::group(['prefix' => 'cotizaciones'], function ($router) {
-    Route::get("/all", "Cotizacion\CotizacionController@index");
-    Route::post("/add", "Cotizacion\CotizacionController@store");
-    Route::get("/show_cotizacion/{id}", "Cotizacion\CotizacionController@show");
-    Route::put("/update/{id}", "Cotizacion\CotizacionController@update");
-    Route::put("/remove/{id}", "Cotizacion\CotizacionController@remove");
-
-    Route::get("/allClientes", "Cotizacion\CotizacionController@allClientes");
-    Route::get("/allProductos", "Cotizacion\CotizacionController@allProductos");
-
-    Route::post("/addClienteRapido", "Cotizacion\CotizacionController@addClienteRapido");
-});
 
 
 
-Route::group(['prefix' => 'clientes'], function ($router) {
-    Route::get("/all", "Cliente\ClienteController@index");
-    Route::post("/add", "Cliente\ClienteController@store");
-    Route::post("/update/{id}", "Cliente\ClienteController@update");
-    Route::delete("/delete/{id}", "Cliente\ClienteController@destroy");
-    Route::put("/remove/{id}", "Cliente\ClienteController@remove");
-});
+
+
 
 Route::group(['prefix' => 'cupones'], function ($router) {
     Route::get("/all", "Cupones\CuponesController@index");
@@ -143,13 +111,29 @@ Route::group(['prefix' => 'paises'], function ($router) {
 });
 
 
-
+Route::group(['prefix' => 'users'], function ($router) {
+    Route::post('/register', "JWTController@register");
+    Route::post('/login', "JWTController@loginAdmin");
+    Route::post('/login_ecommerce', "JWTController@loginEcommerce");
+    Route::post('/logout', "JWTController@logout");
+    Route::post('/refresh', "JWTController@refresh");
+    Route::post('/profile', "JWTController@profile");
+    //
+    Route::group(['prefix' => 'admin'], function () {
+        Route::get('/all', "UserController@index");
+        Route::post('/register', "UserController@store");
+        Route::put('/update/{id}', "UserController@update");
+        Route::put('/remove/{id}', "UserController@remove");
+        Route::delete('/delete/{id}', "UserController@destroy");
+    });
+});
 
 
 
 
 
 //Modificacion:
+
 
 
 Route::group(['prefix' => 'usuarios'], function ($router) {
@@ -184,4 +168,25 @@ Route::group(['prefix' => 'proveedores'], function ($router) {
     Route::get("/show_proveedor/{id}", "Proveedor\ProveedorController@show");
     Route::put("/update/{id}", "Proveedor\ProveedorController@update");
     Route::put("/remove/{id}", "Proveedor\ProveedorController@remove");
+});
+
+Route::group(['prefix' => 'clientes'], function ($router) {
+    Route::get("/all", "Cliente\ClienteController@index");
+    Route::post("/add", "Cliente\ClienteController@store");
+    Route::post("/update/{id}", "Cliente\ClienteController@update");
+    Route::delete("/delete/{id}", "Cliente\ClienteController@destroy");
+    Route::put("/remove/{id}", "Cliente\ClienteController@remove");
+});
+
+Route::group(['prefix' => 'cotizaciones'], function ($router) {
+    Route::get("/all", "Cotizacion\CotizacionController@index");
+    Route::post("/add", "Cotizacion\CotizacionController@store");
+    Route::get("/show_cotizacion/{id}", "Cotizacion\CotizacionController@show");
+    Route::put("/update/{id}", "Cotizacion\CotizacionController@update");
+    Route::put("/remove/{id}", "Cotizacion\CotizacionController@remove");
+
+    Route::get("/allClientes", "Cotizacion\CotizacionController@allClientes");
+    Route::get("/allProductos", "Cotizacion\CotizacionController@allProductos");
+
+    Route::post("/addClienteRapido", "Cotizacion\CotizacionController@addClienteRapido");
 });

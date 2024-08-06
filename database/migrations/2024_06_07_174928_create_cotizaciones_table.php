@@ -15,14 +15,13 @@ class CreateCotizacionesTable extends Migration
     {
         Schema::create('cotizaciones', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('dFechaEmision');
-            $table->timestamp('dFechaExpiracion');
-            $table->integer('nTotal');
-            $table->text('cObservaciones');
-            $table->integer('nEstadoCotizacion')->default(1);
-            $table->integer('nTieneDescuento')->default(0);
-            $table->integer('nDescuento');
-            $table->tinyInteger('nEstado');
+            $table->string('cCorrelativo')->collation('utf8mb4_0900_ai_ci');
+            $table->date('dFechaEmision');
+            $table->date('dFechaExpiracion');
+            $table->double('nTotal');
+            $table->text('cObservaciones')->nullable();
+            $table->float('nValorDescuento');
+            $table->integer('nEstado')->default(1);
             $table->string('cUsuarioCreacion');
             $table->string('cUsuarioModificacion')->nullable();
             $table->integer('cliente_id');
