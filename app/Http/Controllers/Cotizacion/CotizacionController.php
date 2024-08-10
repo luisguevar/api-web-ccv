@@ -24,7 +24,7 @@ class CotizacionController extends Controller
         $nEstado = $request->input('nEstado', -1);
         $cCorrelativo = $request->input('cCorrelativo', null);
         $startDate = $request->input('dFechaEmisionInicio', null);
-        $endDate = $request->input('dFechaFinInicio', null);
+        $endDate = $request->input('dFechaEmisionFin', null);
 
         // Llamar al procedimiento almacenado con los parámetros
         $cotizaciones = DB::select('CALL SP_GETALLCOTIZACIONES(?, ?, ?, ?)', [$nEstado, $cCorrelativo, $startDate, $endDate]);

@@ -15,7 +15,7 @@ class CreateCotizacionesTable extends Migration
     {
         Schema::create('cotizaciones', function (Blueprint $table) {
             $table->id();
-            $table->string('cCorrelativo')->collation('utf8mb4_0900_ai_ci');
+            $table->string('cCorrelativo')->nullable()->collation('utf8mb4_0900_ai_ci');
             $table->date('dFechaEmision');
             $table->date('dFechaExpiracion');
             $table->double('nTotal');
