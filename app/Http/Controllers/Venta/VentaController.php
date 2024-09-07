@@ -134,6 +134,9 @@ class VentaController extends Controller
                 'cUsuarioCreacion' => $producto->cUsuarioCreacion,
                 'cUsuarioModificacion' => $producto->cUsuarioModificacion,
                 'producto_nombre' => $producto->product->cDescripcion,
+                'nTotalConDescuento' => number_format((100 - $producto->nDescuento) * ($producto->nCantidad * $producto->nPrecioUnitario) / 100, 2),
+                'nTotalSinDescuento' => number_format(($producto->nCantidad * $producto->nPrecioUnitario), 2),
+                'nTotalDescuento'=>number_format(($producto->nDescuento) * ($producto->nCantidad * $producto->nPrecioUnitario) / 100, 2),
             ];
         }
 
@@ -159,7 +162,9 @@ class VentaController extends Controller
             'nValorIGV' => $venta->nValorIGV,
             'nDescuento' => $venta->nDescuento,
             'nTotal' => $venta->nTotal,
-            'nEstado' => $venta->nEstado
+            'nEstado' => $venta->nEstado,
+            'bCompletado' => $venta->bCompletado,
+            'cObservaciones' => $venta->cObservaciones
         ];
         return response()->json([
             "detalle_venta" =>  $detalle_venta,
@@ -187,7 +192,58 @@ class VentaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $venta = Venta::findOrFail($request->id);
+        try {
+            $venta->update([
+                'nEstado' => $request->nEstado,
+                'bCompletado'=>  $request->bCompletado,
+                'cUsuarioModificacion'=> $request->cUsuarioModificacion,
+            ]);
+
+            return response()->json(
+                [
+                    "message" => "Pedido actualizado con éxito",
+                    "id" => $venta->id,
+                    "success" => true
+                ],
+                200
+            );
+        } catch (\Exception $e) {
+
+            return response()->json([
+                "error" => $e->getMessage(),
+                "message" => "Error inesperado al actualizar el estado del Pedido: ",
+                "success" => false
+            ], 500);
+        }
+    }
+
+    public function cancelar(Request $request, $id)
+    {
+        $venta = Venta::findOrFail($request->id);
+
+        try {
+            $venta->update([
+                'nEstado' => 5,
+                'cObservaciones' => $request->cObservaciones
+            ]);
+
+            return response()->json(
+                [
+                    "message" => "Pedido actualizado con éxito",
+                    "id" => $venta->id,
+                    "success" => true
+                ],
+                200
+            );
+        } catch (\Exception $e) {
+
+            return response()->json([
+                "error" => $e->getMessage(),
+                "message" => "Error inesperado al cancelar el Pedido: ",
+                "success" => false
+            ], 500);
+        }
     }
 
     /**

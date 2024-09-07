@@ -27,6 +27,7 @@ class Venta extends Model
         "nTotal",
         "cObservaciones",
         "nEstado",
+        "bCompletado",
         "cUsuarioCreacion",
         "cUsuarioModificacion",
     ];

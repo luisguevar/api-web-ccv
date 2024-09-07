@@ -33,6 +33,7 @@ class CreateVentasTable extends Migration
             $table->double('nTotal');
             $table->text('cObservaciones')->nullable();
             $table->integer('nEstado')->default(1);
+            $table->tinyInteger('bCompletado')->default(0);
             $table->string('cUsuarioCreacion');
             $table->string('cUsuarioModificacion')->nullable();
           

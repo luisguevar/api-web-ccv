@@ -195,4 +195,6 @@ Route::group(['prefix' => 'ventas'], function ($router) {
     Route::get("/all", "Venta\VentaController@index");
     Route::post("/add", "Venta\VentaController@store");
     Route::get("/show/{id}", "Venta\VentaController@show");
+    Route::put("/cancelar/{id}", "Venta\VentaController@cancelar");
+    Route::put("/update_estado/{id}", "Venta\VentaController@update");
 });

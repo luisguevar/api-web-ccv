@@ -24,8 +24,8 @@ class CreateVentasStoreProcedure extends Migration
             )
             BEGIN 
                 SELECT v.*, 
-                    CONCAT(u.name, u.surname) as cNombreVendedor,
-                      CONCAT( cli.cNombres, cli.cApellidos) as cNombreCliente
+                    CONCAT(u.name, " ",u.surname) as cNombreVendedor,
+                      CONCAT( cli.cNombres, " ", cli.cApellidos) as cNombreCliente
                 FROM ventas v 
                 LEFT JOIN users u ON u.id = v.vendedor_id
                 LEFT JOIN clientes cli ON cli.id = v.cliente_id

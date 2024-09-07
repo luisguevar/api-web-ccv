@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             ProveedorContactoSeeder::class,
             ProductoSeeder::class,
             ProductoImagenesSeeder::class,
-            CotizacionSeeder::class
+            CotizacionSeeder::class,
+            VentasSeeder::class
         ]);
     }
 }
