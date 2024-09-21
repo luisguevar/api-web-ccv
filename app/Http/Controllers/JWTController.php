@@ -40,20 +40,34 @@ class JWTController extends Controller
         }
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'surname' => $request->surname,
-            "type_user" => $request->type_user,
-            /* 'password' => Hash::make($request->password) */
-            'password' => $request->password, //ya no encriptamos, lo hace el modelo,
-            'state' => 1,
             'cNombres' => $request->name,
             'cApellidos' => $request->surname,
-            'nTipoUsuario' => 0,
-            'nRol' => 0,
-            'nEstado' => 1
+            'email' => $request->email,
+
+            'cDocumento' => $request->cNroDocumento,
+            'cAvatar' => '',
+            'cCelular' =>  $request->cCelular,
+            'dFechaNacimiento' =>null,
+            'nGenero' => 0, // 1 para masculino
+            'nTipoUsuario' => 1, // 1 para cliente ecommerce 2 par usuario administrador
+            'nRol' => 0, // 1 para administrador, otro no definidos
+            'nEstado' => 1, // 1 para activo
+
+
+            'name' => $request->name,
+            'surname' => $request->surname,
+            'password' => $request->password,
+            'type_user' => 1,
+            'state' => 1,
+            'role_id' => 0,
+            'cUsuarioCreacion' => $request->cNroDocumento,
+            'cUsuarioModificacion' => $request->cNroDocumento,
+
+
 
         ]);
+
+
         return response()->json([
             'message' => 'User successfully registered',
             'user' => $user

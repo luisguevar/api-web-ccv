@@ -105,10 +105,7 @@ Route::group(["prefix" => "ecommerce"], function ($router) {
     });
 });
 
-Route::group(['prefix' => 'paises'], function ($router) {
-    Route::get("/all", "Pais\PaisController@index");
-    Route::get("/show/{pais}", "Pais\PaisController@show");
-});
+
 
 
 Route::group(['prefix' => 'users'], function ($router) {
@@ -197,4 +194,17 @@ Route::group(['prefix' => 'ventas'], function ($router) {
     Route::get("/show/{id}", "Venta\VentaController@show");
     Route::put("/cancelar/{id}", "Venta\VentaController@cancelar");
     Route::put("/update_estado/{id}", "Venta\VentaController@update");
+});
+
+Route::group(['prefix' => 'paises'], function ($router) {
+    Route::get("/all", "Pais\PaisController@index");
+    Route::get("/show/{pais}", "Pais\PaisController@show");
+});
+
+
+Route::group(['prefix' => 'users'], function ($router) {
+    Route::post('/login', "JWTController@loginAdmin");
+    Route::post('/loginEcommerce', "JWTController@loginAdmin");
+    Route::post('/register', "JWTController@register");
+    
 });

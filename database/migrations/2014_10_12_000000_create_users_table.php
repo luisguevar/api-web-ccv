@@ -36,7 +36,7 @@ class CreateUsersTable extends Migration
             $table->string('cDocumento');
             $table->string('cAvatar');
             $table->string('cCelular');
-            $table->timestamp('dFechaNacimiento');
+            $table->timestamp('dFechaNacimiento')->nullable();
             $table->tinyInteger('nGenero'); // 1 m 2 f
             $table->tinyInteger('nTipoUsuario'); // 1 cliemte, 2 empleado
             $table->tinyInteger('nRol'); // 1 admin
