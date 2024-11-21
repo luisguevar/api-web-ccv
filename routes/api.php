@@ -83,31 +83,6 @@ Route::post("sales/all", "Sales\SalesController@sale_all");
 
 
 
-
-Route::group(["prefix" => "ecommerce"], function ($router) {
-    Route::get("home", "Ecommerce\HomeController@home");
-    Route::post("list-products", "Ecommerce\HomeController@list_product");
-    Route::get("detail-product/{slug}", "Ecommerce\HomeController@detail_product");
-    Route::get("config_initial_filter", "Ecommerce\HomeController@config_initial_filter");
-    Route::group(["prefix" => "cart"], function () {
-        Route::get("applycupon/{cupon}", "Ecommerce\Cart\CartShopController@apply_cupon");
-        Route::resource("add", "Ecommerce\Cart\CartShopController");
-    });
-    Route::resource("wishlist", "Ecommerce\Cart\WishListController");
-    Route::group(["prefix" => "checkout"], function () {
-        Route::resource("address_user", "Ecommerce\Client\AddressUserController");
-        Route::post("sale", "Ecommerce\Sale\SaleController@store");
-    });
-    Route::group(["prefix" => "profile"], function () {
-        Route::get("home", "Ecommerce\Profile\ProfileController@index");
-        Route::post("profile_update", "Ecommerce\Profile\ProfileController@profile_update");
-        Route::resource("reviews", "Ecommerce\Profile\ReviewController");
-    });
-});
-
-
-
-
 Route::group(['prefix' => 'users'], function ($router) {
     Route::post('/register', "JWTController@register");
     Route::post('/login', "JWTController@loginAdmin");
@@ -204,7 +179,14 @@ Route::group(['prefix' => 'paises'], function ($router) {
 
 Route::group(['prefix' => 'users'], function ($router) {
     Route::post('/login', "JWTController@loginAdmin");
-    Route::post('/loginEcommerce', "JWTController@loginAdmin");
+    Route::post('/loginEcommerce', "JWTController@loginEcommerce");
     Route::post('/register', "JWTController@register");
-    
+});
+
+
+
+//ECOMMERCE
+
+Route::group(['prefix' => 'ecommerce'], function ($router) {
+    Route::get("/home", "Ecommerce\HomeController@home");
 });
