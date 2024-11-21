@@ -181,6 +181,8 @@ Route::group(['prefix' => 'users'], function ($router) {
     Route::post('/login', "JWTController@loginAdmin");
     Route::post('/loginEcommerce', "JWTController@loginEcommerce");
     Route::post('/register', "JWTController@register");
+    Route::get('/profile-client-me', "JWTController@me");
+    Route::post('/update-profile-client-me', "JWTController@updateme");
 });
 
 
@@ -189,4 +191,6 @@ Route::group(['prefix' => 'users'], function ($router) {
 
 Route::group(['prefix' => 'ecommerce'], function ($router) {
     Route::get("/home", "Ecommerce\HomeController@home");
+   
 });
+

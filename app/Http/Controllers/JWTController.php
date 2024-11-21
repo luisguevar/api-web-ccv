@@ -7,6 +7,7 @@ use Validator;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 use function PHPSTORM_META\map;
 
@@ -20,6 +21,55 @@ class JWTController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login', 'loginAdmin', 'loginEcommerce', 'register']]);
+    }
+
+    public function me()
+    {
+        $user = User::find(auth("api")->user()->id);
+
+        return response()->json([
+            'cNombres' => $user->cNombres,
+            'cApellidos' => $user->cApellidos,
+            'cDocumento' => $user->cDocumento,
+            'cCelular' => $user->cCelular,
+            'email' => $user->email,
+            'cAvatar'=> $user->avatar ? env("APP_URL")."storage/".$user->avatar : null,
+        ]);
+    }
+
+    public function updateme(Request $request)
+    {
+        $is_exists_email = User::where("id", "<>", auth("api")->user()->id)->where("email", $request->email)->first();
+        if ($is_exists_email) {
+            return response()->json([
+                "message" => 403,
+                "message_text" => "El usuario ya existe"
+            ]);
+        }
+        $user = User::find(auth("api")->user()->id);
+        if ($request->hasFile("file_imagen")) {
+            if ($user->avatar) {
+                Storage::delete($user->avatar);
+            }
+            $path = Storage::putFile("users", $request->file("file_imagen"));
+            $request->request->add(["avatar" => $path]);
+        }
+        /*   $user->update($request->all()); */
+
+        $user->update([
+            'cNombres' => $request->cNombres,
+            'name' => $request->cNombres,
+            'cApellidos' => $request->cApellidos,
+            'surname' => $request->cApellidos,
+            'email' => $request->email,
+            'cAvatar' => $request->avatar,
+            'avatar' => $request->avatar,
+            'cCelular' => $request->cCelular,
+        ]);
+
+        return response()->json([
+            "message" => 200
+        ]);
     }
 
     /**
@@ -47,7 +97,7 @@ class JWTController extends Controller
             'cDocumento' => $request->cNroDocumento,
             'cAvatar' => '',
             'cCelular' =>  $request->cCelular,
-            'dFechaNacimiento' =>null,
+            'dFechaNacimiento' => null,
             'nGenero' => 0, // 1 para masculino
             'nTipoUsuario' => 1, // 1 para cliente ecommerce 2 par usuario administrador
             'nRol' => 0, // 1 para administrador, otro no definidos
@@ -114,6 +164,7 @@ class JWTController extends Controller
 
         return $this->respondWithToken($token);
     }
+
 
     /**
      * Logout user
