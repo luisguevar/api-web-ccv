@@ -10,6 +10,7 @@ use App\Models\Cotizacion\CotizacionesProducto;
 use Facade\FlareClient\Http\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CotizacionController extends Controller
 {
@@ -55,7 +56,7 @@ class CotizacionController extends Controller
                 'cUsuarioModificacion' => $producto->cUsuarioModificacion,
                 'nTotalConDescuento' => number_format((100 - $producto->nDescuento) * ($producto->nCantidad * $producto->nPrecioUnitario) / 100, 2),
                 'nTotalSinDescuento' => number_format(($producto->nCantidad * $producto->nPrecioUnitario), 2),
-                'nTotalDescuento'=>number_format(($producto->nDescuento) * ($producto->nCantidad * $producto->nPrecioUnitario) / 100, 2),
+                'nTotalDescuento' => number_format(($producto->nDescuento) * ($producto->nCantidad * $producto->nPrecioUnitario) / 100, 2),
                 'producto_nombre' => $producto->product->cDescripcion,
             ];
         }
@@ -260,4 +261,76 @@ class CotizacionController extends Controller
             ], 500);
         }
     } */
+
+    public function generarPDF($id)
+    {
+
+        $cotizacion = Cotizacione::with('cliente', 'vendedor')->findOrFail($id);
+        $productos = CotizacionesProducto::orderBy("id", "asc")->where("cotizacion_id", $id)->where("nEstado", 1)->get();
+
+        $result = []; // Inicializa un array para almacenar los resultados
+
+        foreach ($productos as $producto) {
+            $result[] = [
+                'id' => $producto->id,
+                'cotizacion_id' => $producto->cotizacion_id,
+                'producto_id' => $producto->producto_id,
+                'cSku' => $producto->product->cSku,
+                'nCantidad' => $producto->nCantidad,
+                'nPrecioUnitario' => $producto->nPrecioUnitario,
+                'nDescuento' => $producto->nDescuento,
+                'nEstado' => $producto->nEstado,
+                'cUsuarioCreacion' => $producto->cUsuarioCreacion,
+                'cUsuarioModificacion' => $producto->cUsuarioModificacion,
+                'nTotalConDescuento' => number_format((100 - $producto->nDescuento) * ($producto->nCantidad * $producto->nPrecioUnitario) / 100, 2),
+                'nTotalSinDescuento' => number_format(($producto->nCantidad * $producto->nPrecioUnitario), 2),
+                'nTotalDescuento' => number_format(($producto->nDescuento) * ($producto->nCantidad * $producto->nPrecioUnitario) / 100, 2),
+                'producto_nombre' => $producto->product->cDescripcion,
+                'cImagen' =>  $producto->product->cImagen,
+            ];
+        }
+
+
+
+
+        $data = [
+            'id' => $cotizacion->id,
+            'cliente_id' => $cotizacion->cliente_id,
+            'vendedor_id' => $cotizacion->vendedor_id,
+            'cNombreCliente' => $cotizacion->cliente->cNombres . ' ' . $cotizacion->cliente->cApellidos,
+            'cNroDocumentoCliente' => $cotizacion->cliente->cNroDocumento,
+            'cCorreo' => $cotizacion->cliente->cCorreo,
+            'cClienteCorreo' => $cotizacion->cliente->cNombres . ' ' . $cotizacion->cliente->cApellidos . ' / ' . $cotizacion->cliente->cCorreo,
+            'dFechaEmision' => $cotizacion->dFechaEmision,
+            'dFechaExpiracion' => $cotizacion->dFechaExpiracion,
+            'cObservaciones' => $cotizacion->cObservaciones,
+            'cCorrelativo' => $cotizacion->cCorrelativo,
+            'nEstado' => $cotizacion->nEstado,
+            'productos' => $result
+        ];
+
+
+        $nSubTotal = 0;
+        $nDescuento = 0;
+        $nTotal = 0;
+
+
+        foreach ($result as $producto) {
+
+
+
+            $nTotal = $nTotal +  (((100 - $producto['nDescuento']) * ((float)$producto['nPrecioUnitario'] * (float)$producto['nCantidad'])) / 100);
+        }
+
+
+
+        $IGV = $nTotal * 0.18;
+
+
+        $data['nTotal'] = number_format($nTotal, 2, '.', ',');
+        $data['IGV'] = number_format($IGV, 2, '.', ',');
+        $data['nSubTotal'] = number_format($nTotal - $IGV, 2, '.', ',');
+        $pdf = Pdf::loadView('Cotizaciones.pdf', compact('data'));
+        return $pdf->stream('cotizacion_' . $data['cCorrelativo'] . '.pdf');
+    }
 }

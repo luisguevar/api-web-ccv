@@ -1,6 +1,9 @@
 <?php
 
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -162,6 +165,8 @@ Route::group(['prefix' => 'cotizaciones'], function ($router) {
     Route::get("/allProductos", "Cotizacion\CotizacionController@allProductos");
 
     Route::post("/addClienteRapido", "Cotizacion\CotizacionController@addClienteRapido");
+     Route::get("/pdf/{id}", "Cotizacion\CotizacionController@generarPDF");
+
 });
 
 Route::group(['prefix' => 'ventas'], function ($router) {
@@ -192,6 +197,4 @@ Route::group(['prefix' => 'users'], function ($router) {
 
 Route::group(['prefix' => 'ecommerce'], function ($router) {
     Route::get("/home", "Ecommerce\HomeController@home");
-   
 });
-
