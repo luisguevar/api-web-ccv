@@ -148,6 +148,7 @@ Route::group(['prefix' => 'clientes'], function ($router) {
     Route::post("/update/{id}", "Cliente\ClienteController@update");
     Route::delete("/delete/{id}", "Cliente\ClienteController@destroy");
     Route::put("/remove/{id}", "Cliente\ClienteController@remove");
+    Route::get("/show_cliente/{id}", "Cliente\ClienteController@show");
 });
 
 Route::group(['prefix' => 'cotizaciones'], function ($router) {

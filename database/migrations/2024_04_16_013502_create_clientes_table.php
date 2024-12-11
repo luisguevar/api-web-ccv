@@ -28,6 +28,7 @@ class CreateClientesTable extends Migration
             $table->tinyInteger('nEstado');
             $table->string('cUsuarioCreacion');
             $table->string('cUsuarioModificacion')->nullable();
+            $table->integer('usuario_id')->nullable();
             $table->timestamps();
         });
     }

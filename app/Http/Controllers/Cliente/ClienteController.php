@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cliente;
 
 use Illuminate\Http\Request;
 use App\Models\Cliente\Cliente;
+use App\User;
 use App\Http\Controllers\Controller;
 
 
@@ -13,7 +14,7 @@ class ClienteController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api');
+        //$this->middleware('auth:api');
     }
     /**
      * Display a listing of the resource.
@@ -136,7 +137,21 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
-        //
+        $cliente = Cliente::findOrFail($id);
+        $avatar = null;
+        $usuario = User::where("id", "=", $cliente->usuario_id)->first();
+
+        if ($usuario) {
+            $avatar = $usuario->avatar ? env("APP_URL")."storage/".$usuario->avatar : null;
+        }
+
+        return response()->json([
+            'cNombres' => $cliente->cNombres,
+            'cApellidos' => $cliente->cApellidos,
+            'cNroDocumento' => $cliente->cNroDocumento,
+            'usuario_id'=>$cliente->usuario_id,
+            'cAvatar'=> $avatar,
+        ]);
     }
 
     /**

@@ -65,6 +65,20 @@ class ClienteSeeder extends Seeder
         ]);
 
         Cliente::create([
+            "cNombres" => "Luis Antonio",
+            "cApellidos" => "Guevara Aredo",
+            "cCorreo" => "luisgAreado@correo.com",
+            "nTipoPersona" => 1,
+            "nTipoDocumento" => 1,
+            "cNroDocumento" => "74757790",
+            "cCelular" => "9678965345",
+            "nEstado" => 1,
+            "cUsuarioCreacion" => "74757790",
+            "cUsuarioModificacion" => "74757790",
+            "usuario_id" => 1
+        ]);
+
+        Cliente::create([
             "cNombres" => "Daniela Isabel",
             "cApellidos" => "Mendoza Torres",
             "cCorreo" => "danielamendoza@correo.com",
