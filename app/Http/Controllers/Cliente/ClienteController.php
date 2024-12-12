@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Cliente;
 use Illuminate\Http\Request;
 use App\Models\Cliente\Cliente;
 use App\User;
+use App\Models\Cotizacion\Cotizacione;
+use App\Models\Venta\Venta;
 use App\Http\Controllers\Controller;
 
 
@@ -140,6 +142,9 @@ class ClienteController extends Controller
         $cliente = Cliente::findOrFail($id);
         $avatar = null;
         $usuario = User::where("id", "=", $cliente->usuario_id)->first();
+        $ListVentas = Venta::orderBy("id", "asc")->where("cliente_id", $id)->get();
+        $ListCotizacion = Cotizacione::orderBy("id", "asc")->where("cliente_id", $id)->get();
+
 
         if ($usuario) {
             $avatar = $usuario->avatar ? env("APP_URL")."storage/".$usuario->avatar : null;
@@ -150,7 +155,12 @@ class ClienteController extends Controller
             'cApellidos' => $cliente->cApellidos,
             'cNroDocumento' => $cliente->cNroDocumento,
             'usuario_id'=>$cliente->usuario_id,
+            'cNumeroDocumento' => $cliente -> cNumeroDocumento,
+            'cCelular' => $cliente -> cCelular,
+            'nTipoPersona' => $cliente -> nTipoPersona,
             'cAvatar'=> $avatar,
+            'ListVentas' => $ListVentas,
+            'ListCotizaciones' => $ListCotizacion,
         ]);
     }
 
